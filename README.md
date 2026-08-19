@@ -1,5 +1,14 @@
-# barometer-bs
+# Accountability Radar
 
-OpenSverige — **Accountability Radar** (*ord mot handling*).
+OpenSverige — *ord mot handling*.
 
-Dokumentation landar via pull request. Se `docs/`.
+Mäter avståndet mellan vad riksdagspartier **säger** och vad de **gör**. Inte opinion. Inte röstmaskin.
+
+| Dokument | Vad det styr |
+|----------|----------------|
+| [docs/SPEC.md](docs/SPEC.md) | beteende: hierarki, claims, conflicts, ingest, gates |
+| [docs/PRD.md](docs/PRD.md) | produkt: mål, scope-lager, metrics, feature-livscykel |
+
+L1 (riksdagen) vinner vid konflikt. Första topic är `ai` — motorn är issue-agnostisk.
+
+Bidrag via pull request. Inget direkt till `main`.
