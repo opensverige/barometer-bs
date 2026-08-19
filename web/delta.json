@@ -1,0 +1,23 @@
+{
+  "cycle_id": "valet-2022",
+  "theme": "VALET",
+  "as_of": "2026-08-19",
+  "deltas": [
+    {
+      "actor_id": "s",
+      "topic_id": "ai",
+      "said_then": ["lovade global AI-reglering i valet"],
+      "did": ["motion avstyrker samma reglering"],
+      "says_now": ["säger fortfarande ja till global reglering"],
+      "conflict_types": ["action_without_words", "say_vs_write", "then_vs_now"]
+    },
+    {
+      "actor_id": "sd",
+      "topic_id": "ai",
+      "said_then": [],
+      "did": ["yrkar nationell AI-kommitté"],
+      "says_now": [],
+      "conflict_types": ["action_without_words"]
+    }
+  ]
+}
