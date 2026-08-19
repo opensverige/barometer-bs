@@ -6,6 +6,7 @@ import sys
 from pathlib import Path
 
 from radar.conflicts import detect
+from radar.delta import snapshot
 from radar.models import Dataset
 from radar.validate import load_dataset, validate_payload
 
@@ -35,6 +36,30 @@ def cmd_detect(path: Path, write: bool) -> int:
     print(json.dumps({"count": len(found), "types": types, "conflicts": payload["conflicts"]}, ensure_ascii=False, indent=2))
     if write:
         path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    return 0
+
+
+def cmd_delta(path: Path, out: Path | None) -> int:
+    payload, errors = load_dataset(path)
+    if errors:
+        print("INVALID dataset, abort delta")
+        for err in errors:
+            print(f"- {err}")
+        return 1
+    ds = Dataset.from_dict(payload)
+    deltas, conflicts = snapshot(ds.claims, ds.source_index(), detected_at=f"{ds.as_of}T00:00:00Z")
+    body = {
+        "cycle_id": "valet-2022",
+        "theme": "VALET",
+        "as_of": ds.as_of,
+        "deltas": [d.to_dict() for d in deltas],
+        "conflicts": [c.to_dict() for c in conflicts],
+    }
+    text = json.dumps(body, ensure_ascii=False, indent=2)
+    print(text)
+    if out:
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(text + "\n", encoding="utf-8")
     return 0
 
 
@@ -150,6 +175,10 @@ def main(argv: list[str] | None = None) -> int:
     p_det.add_argument("path", type=Path)
     p_det.add_argument("--write", action="store_true")
 
+    p_del = sub.add_parser("delta")
+    p_del.add_argument("path", type=Path)
+    p_del.add_argument("--out", type=Path)
+
     p_ing = sub.add_parser("ingest")
     p_ing.add_argument("source", choices=["riksdagen", "partyweb"])
     p_ing.add_argument("--rm", action="append", dest="rms", default=[])
@@ -161,6 +190,8 @@ def main(argv: list[str] | None = None) -> int:
         return cmd_validate(args.path)
     if args.cmd == "detect":
         return cmd_detect(args.path, args.write)
+    if args.cmd == "delta":
+        return cmd_delta(args.path, args.out)
     if args.cmd == "ingest":
         rms = args.rms or ["2024/25", "2025/26"]
         return cmd_ingest(args.source, rms, args.topic, args.out)
