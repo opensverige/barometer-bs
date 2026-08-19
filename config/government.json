@@ -1,0 +1,12 @@
+{
+  "mappings": [
+    {
+      "period_start": "2022-10-18",
+      "period_end": null,
+      "government_parties": ["m", "kd", "l"],
+      "support_parties": ["sd"],
+      "note": "Tidö — data, inte UI-magi",
+      "source": "https://www.regeringen.se/"
+    }
+  ]
+}

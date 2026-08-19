@@ -1,0 +1,10 @@
+[
+  {"actor_id": "s", "type": "party", "labels": {"sv": "Socialdemokraterna", "en": "Social Democrats", "aliases": ["S"]}},
+  {"actor_id": "m", "type": "party", "labels": {"sv": "Moderaterna", "en": "Moderate Party", "aliases": ["M"]}},
+  {"actor_id": "sd", "type": "party", "labels": {"sv": "Sverigedemokraterna", "en": "Sweden Democrats", "aliases": ["SD"]}},
+  {"actor_id": "v", "type": "party", "labels": {"sv": "Vänsterpartiet", "en": "Left Party", "aliases": ["V"]}},
+  {"actor_id": "mp", "type": "party", "labels": {"sv": "Miljöpartiet", "en": "Green Party", "aliases": ["MP"]}},
+  {"actor_id": "c", "type": "party", "labels": {"sv": "Centerpartiet", "en": "Centre Party", "aliases": ["C"]}},
+  {"actor_id": "kd", "type": "party", "labels": {"sv": "Kristdemokraterna", "en": "Christian Democrats", "aliases": ["KD"]}},
+  {"actor_id": "l", "type": "party", "labels": {"sv": "Liberalerna", "en": "Liberals", "aliases": ["L"]}}
+]
