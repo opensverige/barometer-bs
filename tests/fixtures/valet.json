@@ -1,0 +1,111 @@
+{
+  "as_of": "2026-08-19",
+  "run_id": "valet-delta-v0",
+  "spec_version": "0.1.0",
+  "actors": [
+    {"actor_id": "s", "type": "party", "labels": {"sv": "Socialdemokraterna"}},
+    {"actor_id": "m", "type": "party", "labels": {"sv": "Moderaterna"}},
+    {"actor_id": "sd", "type": "party", "labels": {"sv": "Sverigedemokraterna"}},
+    {"actor_id": "v", "type": "party", "labels": {"sv": "Vänsterpartiet"}},
+    {"actor_id": "mp", "type": "party", "labels": {"sv": "Miljöpartiet"}},
+    {"actor_id": "c", "type": "party", "labels": {"sv": "Centerpartiet"}},
+    {"actor_id": "kd", "type": "party", "labels": {"sv": "Kristdemokraterna"}},
+    {"actor_id": "l", "type": "party", "labels": {"sv": "Liberalerna"}}
+  ],
+  "topics": [
+    {
+      "topic_id": "ai",
+      "definition": "Artificiell intelligens under valcykeln 2022–2026.",
+      "aliases": ["AI"]
+    }
+  ],
+  "sources": [
+    {
+      "source_id": "src-s-2022",
+      "layer": "L3",
+      "kind": "party_page",
+      "locator": {"url": "https://example.test/s/val2022"},
+      "retrieved_at": "2026-08-19T00:00:00Z",
+      "content_hash": "s2022aaa",
+      "attribution": "s"
+    },
+    {
+      "source_id": "src-s-mot",
+      "layer": "L1",
+      "kind": "motion",
+      "locator": {"official_id": "H302311", "official_id_kind": "dok_id", "url": "https://example.test/dok/H302311"},
+      "retrieved_at": "2026-08-19T00:00:00Z",
+      "content_hash": "smotbbbb",
+      "attribution": "Sveriges riksdag"
+    },
+    {
+      "source_id": "src-s-now",
+      "layer": "L3",
+      "kind": "party_page",
+      "locator": {"url": "https://example.test/s/ai-2026"},
+      "retrieved_at": "2026-08-19T00:00:00Z",
+      "content_hash": "snowcccc",
+      "attribution": "s"
+    },
+    {
+      "source_id": "src-sd-mot",
+      "layer": "L1",
+      "kind": "motion",
+      "locator": {"official_id": "HD02311", "official_id_kind": "dok_id", "url": "https://example.test/dok/HD02311"},
+      "retrieved_at": "2026-08-19T00:00:00Z",
+      "content_hash": "sdmotddd",
+      "attribution": "Sveriges riksdag"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "cl-s-then",
+      "actor_id": "s",
+      "topic_id": "ai",
+      "statement": "lovade global AI-reglering i valet",
+      "stance": "support",
+      "claim_role": "words",
+      "time_start": "2022-08-15",
+      "time_end": "2022-09-11",
+      "derived_from": [{"source_id": "src-s-2022"}],
+      "evidence_score": 0.15
+    },
+    {
+      "claim_id": "cl-s-did",
+      "actor_id": "s",
+      "topic_id": "ai",
+      "statement": "motion avstyrker samma reglering",
+      "stance": "oppose",
+      "claim_role": "action",
+      "time_start": "2025-11-01",
+      "time_end": "2025-11-30",
+      "derived_from": [{"source_id": "src-s-mot"}],
+      "evidence_score": 0.7
+    },
+    {
+      "claim_id": "cl-s-now",
+      "actor_id": "s",
+      "topic_id": "ai",
+      "statement": "säger fortfarande ja till global reglering",
+      "stance": "support",
+      "claim_role": "words",
+      "time_start": "2026-08-01",
+      "time_end": "2026-08-19",
+      "derived_from": [{"source_id": "src-s-now"}],
+      "evidence_score": 0.15
+    },
+    {
+      "claim_id": "cl-sd-did",
+      "actor_id": "sd",
+      "topic_id": "ai",
+      "statement": "yrkar nationell AI-kommitté",
+      "stance": "support",
+      "claim_role": "action",
+      "time_start": "2025-10-15",
+      "time_end": "2025-10-16",
+      "derived_from": [{"source_id": "src-sd-mot"}],
+      "evidence_score": 0.7
+    }
+  ],
+  "conflicts": []
+}
