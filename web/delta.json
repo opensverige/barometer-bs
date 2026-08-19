@@ -9,7 +9,7 @@
       "said_then": ["lovade global AI-reglering i valet"],
       "did": ["motion avstyrker samma reglering"],
       "says_now": ["säger fortfarande ja till global reglering"],
-      "conflict_types": ["action_without_words", "say_vs_write", "then_vs_now"]
+      "conflict_types": ["say_vs_write", "then_vs_now"]
     },
     {
       "actor_id": "sd",
