@@ -16,14 +16,14 @@ def test_s_has_election_delta_and_live_words():
     payload, errors = load_dataset(FIXTURE)
     assert errors == []
     ds = Dataset.from_dict(payload)
-    deltas, conflicts = snapshot(ds.claims, ds.source_index())
+    deltas, _ = snapshot(ds.claims, ds.source_index())
     s = next(d for d in deltas if d.actor_id == "s")
     assert s.said_then
     assert s.did
     assert s.says_now
-    assert "then_vs_now" in s.conflict_types or "say_vs_write" in s.conflict_types
-    types = {c.type for c in conflicts}
-    assert types & {"then_vs_now", "say_vs_write"}
+    assert "then_vs_now" in s.conflict_types
+    assert "say_vs_write" in s.conflict_types
+    assert "action_without_words" not in s.conflict_types
 
 
 def test_sd_action_without_campaign_or_today_words():
