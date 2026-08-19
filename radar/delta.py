@@ -5,7 +5,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-from radar.conflicts import detect
+from radar.conflicts import OPPOSING, detect
 from radar.models import Claim, Conflict, Source
 
 CONFIG = Path(__file__).resolve().parents[1] / "config" / "windows.json"
@@ -23,6 +23,10 @@ def _in_window(claim: Claim, start: str, end: str | None) -> bool:
     c1 = c1 or c0
     w1 = end or "9999-12-31"
     return c0 <= w1 and start <= c1
+
+
+def _opposes(a: Claim, b: Claim) -> bool:
+    return (a.stance, b.stance) in OPPOSING
 
 
 @dataclass
@@ -55,6 +59,19 @@ def _pick(claims: list[Claim], window: dict[str, Any], role: str) -> list[Claim]
     ]
 
 
+def _election_types(then: list[Claim], did: list[Claim], now: list[Claim]) -> list[str]:
+    types: set[str] = set()
+    if any(_opposes(t, d) for t in then for d in did):
+        types.add("then_vs_now")
+    if any(_opposes(n, d) for n in now for d in did):
+        types.add("say_vs_write")
+    if then and not did:
+        types.add("words_without_action")
+    if did and not now:
+        types.add("action_without_words")
+    return sorted(types)
+
+
 def snapshot(
     claims: list[Claim],
     sources: dict[str, Source],
@@ -74,7 +91,7 @@ def snapshot(
     topics = sorted({c.topic_id for c in scoped})
 
     deltas: list[ActorDelta] = []
-    tagged: list[Claim] = []
+    windowed: list[Claim] = []
 
     for actor in actors:
         for topic in topics:
@@ -82,11 +99,6 @@ def snapshot(
             then = _pick(group, val, "words")
             did = _pick(group, mandat, "action")
             now = _pick(group, idag, "words")
-            # feed detector only the windowed claims so then_vs_now / say_vs_write
-            # line up with Jaw_b's delta, not random overlaps
-            windowed = then + did + now
-            found = detect(windowed, sources, detected_at=detected_at)
-            types = sorted({c.type for c in found})
             deltas.append(
                 ActorDelta(
                     actor_id=actor,
@@ -94,10 +106,10 @@ def snapshot(
                     said_then=[c.statement for c in then],
                     did=[c.statement for c in did],
                     says_now=[c.statement for c in now],
-                    conflict_types=types,
+                    conflict_types=_election_types(then, did, now),
                 )
             )
-            tagged.extend(windowed)
+            windowed.extend(then + did + now)
 
-    conflicts = detect(tagged, sources, detected_at=detected_at)
+    conflicts = detect(windowed, sources, detected_at=detected_at)
     return deltas, conflicts
