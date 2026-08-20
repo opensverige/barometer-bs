@@ -6,7 +6,8 @@ from pathlib import Path
 
 from radar.conflicts import detect
 from radar.delta import snapshot
-from radar.models import Dataset
+from radar.models import Claim, Dataset, Source
+from radar.store import upsert_claims, upsert_sources
 from radar.validate import load_dataset, validate_payload
 
 
@@ -110,9 +111,29 @@ def cmd_ingest(source: str, rms: list[str], topic: str, out: Path) -> int:
         print(f"unknown source {source}")
         return 2
 
+    if out.exists():
+        prev = json.loads(out.read_text(encoding="utf-8"))
+        sources_m = upsert_sources(
+            [Source.from_dict(s) for s in prev.get("sources", [])],
+            [Source.from_dict(s) for s in payload["sources"]],
+        )
+        claims_m = upsert_claims(
+            [Claim.from_dict(c) for c in prev.get("claims", [])],
+            [Claim.from_dict(c) for c in payload["claims"]],
+        )
+        payload["sources"] = [_source_dict(s) for s in sources_m]
+        payload["claims"] = [_claim_dict(c) for c in claims_m]
+        payload["ingest_errors"] = list(prev.get("ingest_errors") or []) + list(payload.get("ingest_errors") or [])
+
+    ds = Dataset.from_dict(payload)
+    payload["conflicts"] = [c.to_dict() for c in detect(ds.claims, ds.source_index())]
+
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    print(f"wrote {out} sources={len(payload['sources'])} claims={len(payload['claims'])} errors={len(payload['ingest_errors'])}")
+    export = Path("data/export/dataset.json")
+    export.parent.mkdir(parents=True, exist_ok=True)
+    export.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    print(f"wrote {out} sources={len(payload['sources'])} claims={len(payload['claims'])} conflicts={len(payload['conflicts'])} errors={len(payload['ingest_errors'])}")
     post = validate_payload(payload)
     if post:
         print("WARN dataset has validation issues:")
