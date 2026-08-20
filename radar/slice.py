@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from radar.kpis import locator_kpi, metadata_freeze_match_ratio, snapshot_blob
+from radar.kpis import locator_kpi, metadata_freeze_match_ratio, snapshot_blob, snapshot_hash
 from radar.store import upsert_sources
 from radar.title_gate import title_is_on_topic
 from radar.models import Locator, Source
@@ -29,6 +29,13 @@ def _ensure_snapshot(rec: dict) -> str:
     return snapshot_blob(ident, rec.get("title") or "", rec.get("rm") or "", rec.get("published_at") or "")
 
 
+def attach_current_hash(rec: dict) -> dict:
+    rec = dict(rec)
+    rec["snapshot"] = _ensure_snapshot(rec)
+    rec["content_hash"] = snapshot_hash(rec["snapshot"])
+    return rec
+
+
 def _source(rec: dict, retrieved: str) -> Source | None:
     kind = rec["kind"]
     if kind == "motion" and not title_is_on_topic(rec.get("title") or ""):
@@ -38,8 +45,7 @@ def _source(rec: dict, retrieved: str) -> Source | None:
         return None
     if kind == "party_page":
         dok = None
-    rec["snapshot"] = _ensure_snapshot(rec)
-    stored = rec.get("content_hash") or ""
+    rec = attach_current_hash(rec)
     layer = "L3" if kind == "party_page" else "L1"
     id_part = dok or rec.get("url") or kind
     return Source(
@@ -53,7 +59,7 @@ def _source(rec: dict, retrieved: str) -> Source | None:
         ),
         retrieved_at=retrieved,
         published_at=rec.get("published_at"),
-        content_hash=stored,
+        content_hash=rec["content_hash"],
         attribution="Sveriges riksdag" if layer == "L1" else rec.get("actor_id") or "",
         vote_data="none" if rec.get("vote_method") == "acclamation" else rec.get("vote_data"),
         punkt=rec.get("punkt"),
@@ -71,6 +77,32 @@ def records_to_sources(freeze: dict) -> list[Source]:
         if src:
             out.append(src)
     return upsert_sources([], out)
+
+
+def source_to_schema(source: Source) -> dict:
+    loc: dict = {}
+    if source.locator.url:
+        loc["url"] = source.locator.url
+    if source.locator.official_id:
+        loc["official_id"] = source.locator.official_id
+    if source.locator.official_id_kind:
+        loc["official_id_kind"] = source.locator.official_id_kind
+    payload = {
+        "source_id": source.source_id,
+        "layer": source.layer,
+        "kind": source.kind,
+        "locator": loc,
+        "retrieved_at": source.retrieved_at,
+        "content_hash": source.content_hash,
+        "attribution": source.attribution,
+    }
+    if source.published_at:
+        payload["published_at"] = source.published_at
+    if source.vote_data:
+        payload["vote_data"] = source.vote_data
+    if source.punkt:
+        payload["punkt"] = source.punkt
+    return payload
 
 
 def _is_acclamation_record(rec: dict) -> bool:
@@ -124,6 +156,8 @@ def _dedupe(items: list[dict]) -> list[dict]:
 
 
 def build_ui(freeze: dict) -> dict:
+    hashed_records = [attach_current_hash(rec) for rec in freeze["records"]]
+    freeze = {**freeze, "records": hashed_records}
     by_actor: dict[str, dict] = {
         aid: {
             "actor_id": aid,
