@@ -1,0 +1,168 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensverige.se/radar/schema/v0.1",
+  "$defs": {
+    "actor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["actor_id", "type", "labels"],
+      "properties": {
+        "actor_id": { "type": "string", "pattern": "^[a-z0-9_.-]+$" },
+        "type": { "enum": ["party", "person", "org"] },
+        "labels": {
+          "type": "object",
+          "required": ["sv"],
+          "properties": {
+            "sv": { "type": "string" },
+            "en": { "type": "string" },
+            "aliases": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "party_id": { "type": "string" }
+      }
+    },
+    "topic": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["topic_id", "definition", "aliases"],
+      "properties": {
+        "topic_id": { "type": "string", "pattern": "^[a-z][a-z0-9_.-]*$" },
+        "definition": { "type": "string", "minLength": 8, "maxLength": 600 },
+        "aliases": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "locator": {
+      "type": "object",
+      "additionalProperties": false,
+      "anyOf": [
+        { "required": ["url"] },
+        { "required": ["official_id"] }
+      ],
+      "properties": {
+        "url": { "type": "string", "minLength": 1 },
+        "official_id": { "type": "string", "minLength": 1 },
+        "official_id_kind": {
+          "enum": ["dok_id", "votering_id", "anforande_id", "other"]
+        }
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_id", "layer", "kind", "locator", "retrieved_at", "content_hash", "attribution"],
+      "properties": {
+        "source_id": { "type": "string" },
+        "layer": { "enum": ["L1", "L2", "L3"] },
+        "kind": {
+          "enum": [
+            "motion", "anforande", "votering", "beslut", "prop",
+            "strategy", "party_page", "press", "reservation"
+          ]
+        },
+        "locator": { "$ref": "#/$defs/locator" },
+        "retrieved_at": { "type": "string", "format": "date-time" },
+        "published_at": { "type": "string" },
+        "content_hash": { "type": "string", "minLength": 8 },
+        "attribution": { "type": "string", "minLength": 1 },
+        "vote_data": { "enum": ["recorded", "none"] },
+        "punkt": { "type": "string" }
+      }
+    },
+    "derived_from": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_id"],
+      "properties": {
+        "source_id": { "type": "string" },
+        "quote": { "type": "string" }
+      }
+    },
+    "claim": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "claim_id", "actor_id", "topic_id", "statement", "stance",
+        "claim_role", "derived_from", "evidence_score"
+      ],
+      "properties": {
+        "claim_id": { "type": "string" },
+        "actor_id": { "type": "string" },
+        "topic_id": { "type": "string" },
+        "statement": { "type": "string", "minLength": 1 },
+        "stance": { "enum": ["support", "oppose", "mixed", "conditional", "silent"] },
+        "polarity_notes": { "type": "string" },
+        "claim_role": { "enum": ["words", "action", "unclear"] },
+        "time_start": { "type": "string" },
+        "time_end": { "type": "string" },
+        "derived_from": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/derived_from" }
+        },
+        "evidence_score": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    },
+    "conflict": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "conflict_id", "actor_id", "topic_id", "type",
+        "claim_ids", "summary", "detected_at", "status"
+      ],
+      "properties": {
+        "conflict_id": { "type": "string" },
+        "actor_id": { "type": "string" },
+        "topic_id": { "type": "string" },
+        "type": {
+          "enum": [
+            "say_vs_write", "write_vs_vote", "then_vs_now",
+            "words_without_action", "action_without_words"
+          ]
+        },
+        "claim_ids": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string" }
+        },
+        "documented_absence": { "type": "boolean" },
+        "summary": { "type": "string", "minLength": 1 },
+        "detected_at": { "type": "string", "format": "date-time" },
+        "status": { "enum": ["open", "resolved", "disputed"] },
+        "resolution_note": { "type": "string" }
+      }
+    },
+    "ingest_error": {
+      "type": "object",
+      "required": ["at", "adapter", "message"],
+      "properties": {
+        "at": { "type": "string", "format": "date-time" },
+        "adapter": { "type": "string" },
+        "message": { "type": "string" },
+        "locator": { "type": "string" }
+      }
+    },
+    "dataset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["as_of", "run_id", "actors", "topics", "sources", "claims", "conflicts"],
+      "properties": {
+        "as_of": { "type": "string" },
+        "run_id": { "type": "string" },
+        "spec_version": { "type": "string" },
+        "actors": { "type": "array", "items": { "$ref": "#/$defs/actor" } },
+        "topics": { "type": "array", "items": { "$ref": "#/$defs/topic" } },
+        "sources": { "type": "array", "items": { "$ref": "#/$defs/source" } },
+        "claims": { "type": "array", "items": { "$ref": "#/$defs/claim" } },
+        "conflicts": { "type": "array", "items": { "$ref": "#/$defs/conflict" } },
+        "ingest_errors": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/ingest_error" }
+        }
+      }
+    }
+  }
+}

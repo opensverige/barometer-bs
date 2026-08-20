@@ -1,0 +1,196 @@
+{
+  "as_of": "2026-08-19",
+  "run_id": "golden-v0",
+  "spec_version": "0.1.0",
+  "actors": [
+    {"actor_id": "s", "type": "party", "labels": {"sv": "Socialdemokraterna"}},
+    {"actor_id": "m", "type": "party", "labels": {"sv": "Moderaterna"}},
+    {"actor_id": "sd", "type": "party", "labels": {"sv": "Sverigedemokraterna"}},
+    {"actor_id": "v", "type": "party", "labels": {"sv": "Vänsterpartiet"}},
+    {"actor_id": "mp", "type": "party", "labels": {"sv": "Miljöpartiet"}},
+    {"actor_id": "c", "type": "party", "labels": {"sv": "Centerpartiet"}},
+    {"actor_id": "kd", "type": "party", "labels": {"sv": "Kristdemokraterna"}},
+    {"actor_id": "l", "type": "party", "labels": {"sv": "Liberalerna"}}
+  ],
+  "topics": [
+    {
+      "topic_id": "ai",
+      "definition": "Artificiell intelligens: reglering, offentlig användning, forskning och infrastruktur.",
+      "aliases": ["AI"]
+    }
+  ],
+  "sources": [
+    {
+      "source_id": "src-s-web",
+      "layer": "L3",
+      "kind": "party_page",
+      "locator": {"url": "https://example.test/s/ai"},
+      "retrieved_at": "2026-08-19T00:00:00Z",
+      "content_hash": "aaaaaaaa",
+      "attribution": "s"
+    },
+    {
+      "source_id": "src-s-mot",
+      "layer": "L1",
+      "kind": "motion",
+      "locator": {"official_id": "H302311", "official_id_kind": "dok_id", "url": "https://example.test/dok/H302311"},
+      "retrieved_at": "2026-08-19T00:00:00Z",
+      "content_hash": "bbbbbbbb",
+      "attribution": "Sveriges riksdag"
+    },
+    {
+      "source_id": "src-m-mot",
+      "layer": "L1",
+      "kind": "motion",
+      "locator": {"official_id": "H302100", "official_id_kind": "dok_id", "url": "https://example.test/dok/H302100"},
+      "retrieved_at": "2026-08-19T00:00:00Z",
+      "content_hash": "cccccccc",
+      "attribution": "Sveriges riksdag"
+    },
+    {
+      "source_id": "src-m-vot",
+      "layer": "L1",
+      "kind": "votering",
+      "locator": {"official_id": "VOT1", "official_id_kind": "votering_id", "url": "https://example.test/vot/VOT1"},
+      "retrieved_at": "2026-08-19T00:00:00Z",
+      "content_hash": "dddddddd",
+      "attribution": "Sveriges riksdag",
+      "vote_data": "recorded",
+      "punkt": "1"
+    },
+    {
+      "source_id": "src-v-old",
+      "layer": "L1",
+      "kind": "motion",
+      "locator": {"official_id": "H2024001", "official_id_kind": "dok_id", "url": "https://example.test/dok/H2024001"},
+      "retrieved_at": "2026-08-19T00:00:00Z",
+      "content_hash": "eeeeeeee",
+      "attribution": "Sveriges riksdag"
+    },
+    {
+      "source_id": "src-v-new",
+      "layer": "L1",
+      "kind": "motion",
+      "locator": {"official_id": "H2026001", "official_id_kind": "dok_id", "url": "https://example.test/dok/H2026001"},
+      "retrieved_at": "2026-08-19T00:00:00Z",
+      "content_hash": "ffffffff",
+      "attribution": "Sveriges riksdag"
+    },
+    {
+      "source_id": "src-c-web",
+      "layer": "L3",
+      "kind": "party_page",
+      "locator": {"url": "https://example.test/c/ai"},
+      "retrieved_at": "2026-08-19T00:00:00Z",
+      "content_hash": "11111111",
+      "attribution": "c"
+    },
+    {
+      "source_id": "src-sd-mot",
+      "layer": "L1",
+      "kind": "motion",
+      "locator": {"official_id": "HD02311", "official_id_kind": "dok_id", "url": "https://example.test/dok/HD02311"},
+      "retrieved_at": "2026-08-19T00:00:00Z",
+      "content_hash": "22222222",
+      "attribution": "Sveriges riksdag"
+    },
+    {
+      "source_id": "src-kd-none",
+      "layer": "L1",
+      "kind": "votering",
+      "locator": {"official_id": "VOTNONE", "official_id_kind": "votering_id", "url": "https://example.test/vot/VOTNONE"},
+      "retrieved_at": "2026-08-19T00:00:00Z",
+      "content_hash": "33333333",
+      "attribution": "Sveriges riksdag",
+      "vote_data": "none",
+      "punkt": "2"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "cl-s-words",
+      "actor_id": "s",
+      "topic_id": "ai",
+      "statement": "stödjer global AI-reglering",
+      "stance": "support",
+      "claim_role": "words",
+      "derived_from": [{"source_id": "src-s-web"}],
+      "evidence_score": 0.15
+    },
+    {
+      "claim_id": "cl-s-mot",
+      "actor_id": "s",
+      "topic_id": "ai",
+      "statement": "avstyrker förslaget om AI-reglering",
+      "stance": "oppose",
+      "claim_role": "action",
+      "derived_from": [{"source_id": "src-s-mot"}],
+      "evidence_score": 0.7
+    },
+    {
+      "claim_id": "cl-m-mot",
+      "actor_id": "m",
+      "topic_id": "ai",
+      "statement": "motion tillstyrker förslaget",
+      "stance": "support",
+      "claim_role": "action",
+      "derived_from": [{"source_id": "src-m-mot"}],
+      "evidence_score": 0.7
+    },
+    {
+      "claim_id": "cl-m-vot",
+      "actor_id": "m",
+      "topic_id": "ai",
+      "statement": "röstar nej punkt 1",
+      "stance": "oppose",
+      "claim_role": "action",
+      "derived_from": [{"source_id": "src-m-vot"}],
+      "evidence_score": 0.7
+    },
+    {
+      "claim_id": "cl-v-old",
+      "actor_id": "v",
+      "topic_id": "ai",
+      "statement": "stödde offentlig AI 2024",
+      "stance": "support",
+      "claim_role": "action",
+      "time_start": "2024-01-01",
+      "time_end": "2024-12-31",
+      "derived_from": [{"source_id": "src-v-old"}],
+      "evidence_score": 0.7
+    },
+    {
+      "claim_id": "cl-v-new",
+      "actor_id": "v",
+      "topic_id": "ai",
+      "statement": "avstyrker offentlig AI 2026",
+      "stance": "oppose",
+      "claim_role": "action",
+      "time_start": "2026-01-01",
+      "time_end": "2026-12-31",
+      "derived_from": [{"source_id": "src-v-new"}],
+      "evidence_score": 0.7
+    },
+    {
+      "claim_id": "cl-c-words",
+      "actor_id": "c",
+      "topic_id": "ai",
+      "statement": "vill ha nationellt AI-forskningscenter",
+      "stance": "support",
+      "claim_role": "words",
+      "derived_from": [{"source_id": "src-c-web"}],
+      "evidence_score": 0.15
+    },
+    {
+      "claim_id": "cl-sd-mot",
+      "actor_id": "sd",
+      "topic_id": "ai",
+      "statement": "yrkar nationell AI-kommitté",
+      "stance": "support",
+      "claim_role": "action",
+      "derived_from": [{"source_id": "src-sd-mot"}],
+      "evidence_score": 0.7
+    }
+  ],
+  "conflicts": []
+}

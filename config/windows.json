@@ -1,0 +1,30 @@
+{
+  "cycle_id": "valet-2022",
+  "theme": "VALET",
+  "election_day": "2022-09-11",
+  "next_election_day": "2026-09-13",
+  "windows": [
+    {
+      "window_id": "valrorelse_2022",
+      "label": "Vad de sa senast valet",
+      "start": "2022-08-01",
+      "end": "2022-09-11",
+      "expect_role": "words"
+    },
+    {
+      "window_id": "mandat_2022_2026",
+      "label": "Vad de gjort sedan dess",
+      "start": "2022-09-12",
+      "end": "2026-09-13",
+      "expect_role": "action"
+    },
+    {
+      "window_id": "idag",
+      "label": "Vad de säger nu",
+      "start": "2026-05-21",
+      "end": null,
+      "rolling_days": 90,
+      "expect_role": "words"
+    }
+  ]
+}

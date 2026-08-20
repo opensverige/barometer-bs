@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>VALET — Accountability Radar</title>
+  <link rel="stylesheet" href="./sauron.css" />
+</head>
+<body>
+  <header class="top">
+    <p class="kicker">OpenSverige · actions vs words</p>
+    <h1>VALET</h1>
+    <p class="lede">Vad de sa 2022 · vad de gjort · vad de säger nu. Inte en röstmaskin.</p>
+  </header>
+
+  <section class="sauron" aria-label="Sauron-citat">
+    <svg class="eye" viewBox="0 0 160 160" role="img" aria-label="Öga">
+      <defs>
+        <radialGradient id="iris" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#ffe7a3" />
+          <stop offset="45%" stop-color="#e23b1e" />
+          <stop offset="100%" stop-color="#1a0502" />
+        </radialGradient>
+      </defs>
+      <rect width="160" height="160" fill="#0b0706" />
+      <polygon points="80,8 132,150 28,150" fill="#2a1410" />
+      <ellipse cx="80" cy="78" rx="54" ry="28" fill="url(#iris)" />
+      <ellipse cx="80" cy="78" rx="10" ry="26" fill="#140302" />
+    </svg>
+    <figure class="bubble">
+      <blockquote id="quote">…</blockquote>
+      <figcaption>
+        <span id="who"></span>
+        <a id="src" href="#" target="_blank" rel="noopener">källa</a>
+      </figcaption>
+    </figure>
+  </section>
+
+  <section class="grid" id="deltas"></section>
+
+  <footer>
+    Fixtures, inte facit. L1 vinner. <a href="../docs/LINKS.md">Källor</a>
+  </footer>
+  <script src="./sauron.js"></script>
+</body>
+</html>

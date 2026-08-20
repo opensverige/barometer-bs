@@ -1,0 +1,12 @@
+{
+  "pages": [
+    {"actor_id": "s", "topic_id": "ai", "url": "https://www.socialdemokraterna.se/var-politik/a-till-o/artificiell-intelligens-ai"},
+    {"actor_id": "m", "topic_id": "ai", "url": "https://moderaterna.se/var-politik/"},
+    {"actor_id": "sd", "topic_id": "ai", "url": "https://sd.se/"},
+    {"actor_id": "v", "topic_id": "ai", "url": "https://www.vansterpartiet.se/politik/ai/"},
+    {"actor_id": "mp", "topic_id": "ai", "url": "https://www.mp.se/politik/"},
+    {"actor_id": "c", "topic_id": "ai", "url": "https://www.centerpartiet.se/var-politik/politik-a-o/digitalisering"},
+    {"actor_id": "kd", "topic_id": "ai", "url": "https://kristdemokraterna.se/var-politik/"},
+    {"actor_id": "l", "topic_id": "ai", "url": "https://www.liberalerna.se/politik/"}
+  ]
+}

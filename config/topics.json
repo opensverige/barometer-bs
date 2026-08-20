@@ -1,0 +1,7 @@
+[
+  {
+    "topic_id": "ai",
+    "definition": "Artificiell intelligens: reglering, offentlig användning, forskning, infrastruktur (beräkning/datacenter) och relaterade integritets-/säkerhetsfrågor. Utesluter generell digitalisering utan AI-koppling.",
+    "aliases": ["AI", "artificiell intelligens", "maskininlärning", "deepfake", "datacenter", "ansiktsigenkänning"]
+  }
+]
