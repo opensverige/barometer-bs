@@ -1,34 +1,34 @@
 {
-  "as_of": "2026-08-20",
-  "run_id": "mvp-deploy",
+  "as_of": "2026-08-21",
+  "run_id": "mvp-title-gate",
   "topic_id": "ai",
   "topic_label": "Artificiell intelligens",
   "attribution": "Sveriges riksdag",
-  "note": "L1 = motioner från dokumentlista. L3 = partisida. Inga LLM-ståndpunkter. Tom lista = inget i urvalet, inte 'oskyldig'.",
+  "note": "Bara motioner vars titel nämner AI/artificiell. Keyword i brödtext räknas inte. Inga LLM-ståndpunkter.",
   "parties": [
     {
       "actor_id": "s",
       "name": "Socialdemokraterna",
-      "words": [{"label": "AI på partisidan", "url": "https://www.socialdemokraterna.se/var-politik/a-till-o/artificiell-intelligens-ai", "layer": "L3"}],
-      "actions": [],
+      "words": [{"label": "AI — partipolitik A–Ö", "url": "https://www.socialdemokraterna.se/var-politik/a-till-o/ai", "layer": "L3"}],
+      "actions": [{"label": "Motion 2025/26:1815 Märkning av AI-genererat material", "url": "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/motion/markning-av-ai-genererat-material-for-att-motverka_hd021815/", "dok_id": "HD021815", "date": "2025-10-03", "layer": "L1"}],
       "votes": [],
-      "flag": "words_without_action"
+      "flag": null
     },
     {
       "actor_id": "m",
       "name": "Moderaterna",
       "words": [],
-      "actions": [],
+      "actions": [{"label": "Motion 2025/26:1774 Risker och möjligheter med artificiell intelligens", "url": "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/motion/risker-och-mojligheter-med-artificiell-intelligens_hd021774/", "dok_id": "HD021774", "date": "2025-10-03", "layer": "L1"}],
       "votes": [],
-      "flag": null
+      "flag": "action_without_words"
     },
     {
       "actor_id": "sd",
       "name": "Sverigedemokraterna",
       "words": [],
-      "actions": [],
+      "actions": [{"label": "Motion 2025/26:311 En tillförlitlig, konkurrenskraftig och hållbar svensk AI-politik", "url": "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/motion/en-tillforlitlig-konkurrenskraftig-och-hallbar_hd02311/", "dok_id": "HD02311", "date": "2025-10-03", "layer": "L1"}],
       "votes": [],
-      "flag": null
+      "flag": "action_without_words"
     },
     {
       "actor_id": "v",
@@ -42,15 +42,15 @@
       "actor_id": "mp",
       "name": "Miljöpartiet",
       "words": [],
-      "actions": [{"label": "Motion 2025/26:4115 om strategisk exportkontroll", "url": "https://data.riksdagen.se/dokument/HD024115.html", "dok_id": "HD024115", "date": "2026-04-28", "layer": "L1"}],
+      "actions": [{"label": "Motion 2025/26:3320 För en säker och hållbar AI", "url": "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/motion/for-en-saker-och-hallbar-ai_hd023320/", "dok_id": "HD023320", "date": "2025-10-06", "layer": "L1"}],
       "votes": [],
       "flag": "action_without_words"
     },
     {
       "actor_id": "c",
       "name": "Centerpartiet",
-      "words": [{"label": "Digitalisering A–Ö", "url": "https://www.centerpartiet.se/var-politik/politik-a-o/digitalisering", "layer": "L3"}],
-      "actions": [{"label": "Motion 2025/26:4156 om etikprövning av forskning", "url": "https://data.riksdagen.se/dokument/HD024156.html", "dok_id": "HD024156", "date": "2026-05-13", "layer": "L1"}],
+      "words": [],
+      "actions": [],
       "votes": [],
       "flag": null
     },
