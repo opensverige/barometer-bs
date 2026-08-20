@@ -1,9 +1,10 @@
 from __future__ import annotations
 
 import hashlib
-from typing import Iterable
+import re
+from typing import Any
 
-from radar.models import Claim, Source
+_DOK = re.compile(r"^H[A-Z0-9]+$")
 
 
 def snapshot_blob(official_id: str, title: str, rm: str, published_at: str) -> str:
@@ -18,24 +19,35 @@ def freeze_match(stored_hash: str, blob: str) -> bool:
     return bool(stored_hash) and stored_hash == snapshot_hash(blob)
 
 
-def freeze_match_ratio(rows: Iterable[dict]) -> float | None:
-    rows = list(rows)
+def metadata_freeze_match_ratio(records: list[dict[str, Any]]) -> float | None:
+    rows = [r for r in records if r.get("content_hash") and r.get("snapshot")]
     if not rows:
         return None
-    ok = sum(1 for r in rows if freeze_match(r.get("content_hash") or "", r.get("snapshot") or ""))
+    ok = sum(1 for r in rows if freeze_match(r["content_hash"], r["snapshot"]))
     return ok / len(rows)
 
 
-def locator_ok(source: Source) -> bool:
-    loc = source.locator
-    return bool(loc.official_id and loc.url and str(loc.url).startswith("https://"))
+def locator_record_ok(rec: dict[str, Any]) -> bool:
+    if rec.get("kind") == "party_page":
+        return False
+    dok = rec.get("dok_id") or ""
+    if dok.startswith("L3-") or not _DOK.match(dok):
+        return False
+    url = rec.get("url") or ""
+    if not url.startswith("https://") or "riksdagen.se" not in url:
+        return False
+    kind = rec.get("kind")
+    if kind == "motion" and not rec.get("actor_id"):
+        return False
+    if kind == "beslut" and not rec.get("punkt"):
+        return False
+    if kind == "votering" and not rec.get("actor_id"):
+        return False
+    return True
 
 
-def locator_kpi(claims: list[Claim], sources: dict[str, Source]) -> float | None:
-    if not claims:
+def locator_kpi(records: list[dict[str, Any]]) -> float | None:
+    l1 = [r for r in records if r.get("kind") in {"motion", "beslut", "votering", "anforande"}]
+    if not l1:
         return None
-    hits = 0
-    for claim in claims:
-        if any(locator_ok(sources[d.source_id]) for d in claim.derived_from if d.source_id in sources):
-            hits += 1
-    return hits / len(claims)
+    return sum(1 for r in l1 if locator_record_ok(r)) / len(l1)
