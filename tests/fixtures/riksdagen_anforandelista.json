@@ -1,0 +1,17 @@
+{
+  "anforandelista": {
+    "@sida": "1",
+    "@sidor": "1",
+    "anforande": [
+      {
+        "anforande_id": "H8C101-42",
+        "dok_id": "H809101",
+        "anforande_nummer": "42",
+        "avsnittsrubrik": "Artificiell intelligens i offentlig förvaltning",
+        "parti": "S",
+        "protokoll_url_www": "//data.riksdagen.se/anforande/H8C101-42",
+        "dok_datum": "2026-03-12"
+      }
+    ]
+  }
+}
