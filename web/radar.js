@@ -14,12 +14,7 @@ async function loadDataset() {
 }
 
 function isAcclamation(x) {
-  return x.vote_method === "acclamation" || x.party_vote === "unknown";
-}
-
-function thirdHeading(items) {
-  if (items.length && items.every(isAcclamation)) return "Beslutades";
-  return "Röstade";
+  return x.vote_method === "acclamation";
 }
 
 function links(items, empty) {
@@ -61,13 +56,14 @@ function render(data) {
 
   document.getElementById("grid").innerHTML = data.parties
     .map((p) => {
-      const third = thirdHeading(p.votes);
-      const emptyThird = third === "Beslutades" ? "underlag saknas" : "underlag saknas";
+      const votes = p.votes || [];
+      const decisions = p.decisions || [];
       return `<article class="card">
         <h2>${p.name}</h2>
         <p class="row"><span class="k">Sade</span>${links(p.words, "underlag saknas")}</p>
         <p class="row"><span class="k">Skrev</span>${links(p.actions, "underlag saknas")}</p>
-        <p class="row"><span class="k">${third}</span>${links(p.votes, emptyThird)}</p>
+        <p class="row"><span class="k">Röstade</span>${links(votes, "underlag saknas")}</p>
+        <p class="row"><span class="k">Beslutades</span>${links(decisions, "underlag saknas")}</p>
         ${p.flag ? `<span class="badge">${FLAG_SV[p.flag]}</span>` : ""}
       </article>`;
     })

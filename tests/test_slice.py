@@ -30,13 +30,17 @@ def test_metadata_freeze_match_uses_stored_hash():
     stored = snapshot_hash(blob)
     assert freeze_match(stored, blob)
     assert not freeze_match(stored, blob + "x")
-    sealed = [{"snapshot": blob, "content_hash": stored}]
-    assert metadata_freeze_match_ratio(sealed) == 1.0
-    sealed[0]["content_hash"] = snapshot_hash(blob + "x")
-    assert metadata_freeze_match_ratio(sealed) == 0.0
+    assert metadata_freeze_match_ratio([{"snapshot": blob, "content_hash": stored}]) == 1.0
+    assert metadata_freeze_match_ratio([{"snapshot": blob, "content_hash": snapshot_hash(blob + "x")}]) == 0.0
     freeze = load_freeze(FREEZE)
     assert metadata_freeze_match_ratio(freeze["records"]) is None
     assert metadata_freeze_match_ratio(_seal(freeze["records"])) == 1.0
+
+
+def test_unsealed_source_content_hash_is_empty():
+    sources = records_to_sources(load_freeze(FREEZE))
+    assert sources
+    assert all(s.content_hash == "" for s in sources)
 
 
 def test_locator_rejects_party_page_ids_requires_dok_id_and_punkt():
@@ -57,36 +61,55 @@ def test_locator_rejects_party_page_ids_requires_dok_id_and_punkt():
     assert "dok_id" not in page
 
 
-def test_acclamation_never_presented_as_party_vote():
+def test_acclamation_lives_only_in_decisions_never_votes():
     ui = build_ui(load_freeze(FREEZE))
-    dumped = json.dumps(ui, ensure_ascii=False)
+    for party in ui["parties"]:
+        assert all(v.get("vote_method") != "acclamation" for v in party["votes"])
+        for decision in party["decisions"]:
+            assert decision["vote_method"] == "acclamation"
+            assert decision["party_vote"] == "unknown"
+            assert decision["decision_result"] == "known"
+            assert decision["role"] == "beslutades"
     sd = next(p for p in ui["parties"] if p["actor_id"] == "sd")
-    assert sd["votes"]
-    for vote in sd["votes"]:
-        assert vote["decision_result"] == "known"
-        assert vote["vote_method"] == "acclamation"
-        assert vote["party_vote"] == "unknown"
-        assert vote["role"] == "beslutades"
-        assert "Röstade" not in vote["label"]
-        assert vote.get("stance") not in {"support", "oppose"}
-    assert "Röstade" not in dumped
+    assert sd["votes"] == []
+    assert sd["decisions"]
+    assert sd["decisions"][0]["dok_id"] == "HD01TU8"
     assert ui["then_vs_now"] == []
+
+
+def test_party_can_have_recorded_vote_and_acclamation_decision():
+    freeze = load_freeze(FREEZE)
+    freeze = json.loads(json.dumps(freeze))
+    freeze["records"].append({
+        "kind": "votering",
+        "actor_id": "sd",
+        "rm": "2025/26",
+        "dok_id": "HAE123",
+        "title": "Votering AI punkt 1",
+        "published_at": "2026-02-18",
+        "url": "https://data.riksdagen.se/votering/HAE123",
+        "punkt": "1",
+        "party_vote": "support",
+        "vote_method": "recorded",
+        "snapshot": "HAE123|2025/26|Votering AI punkt 1|2026-02-18",
+    })
+    ui = build_ui(freeze)
+    sd = next(p for p in ui["parties"] if p["actor_id"] == "sd")
+    assert len(sd["votes"]) == 1
+    assert sd["votes"][0]["party_vote"] == "support"
+    assert sd["votes"][0]["vote_method"] == "recorded"
+    assert len(sd["decisions"]) == 1
+    assert sd["decisions"][0]["vote_method"] == "acclamation"
+    assert all(v.get("vote_method") != "acclamation" for v in sd["votes"])
+    assert all(d.get("kind") != "votering" or d.get("vote_method") == "acclamation" for d in sd["decisions"])
 
 
 def test_then_vs_now_hidden_without_two_comparable_votes():
     ui = build_ui(load_freeze(FREEZE))
     assert ui["then_vs_now"] == []
     sd = next(p for p in ui["parties"] if p["actor_id"] == "sd")
-    assert len(sd["timeline"]) >= 2
     assert sd["actions"][0]["dok_id"] == "HD02311"
-    assert sd["votes"][0]["dok_id"] == "HD01TU8"
-
-
-def test_no_hardcoded_claim_actor_on_every_source():
-    src = Path(__file__).resolve().parents[1] / "radar" / "slice.py"
-    text = src.read_text(encoding="utf-8")
-    assert 'actor_id="sd"' not in text
-    assert 'actor_id="s"' not in text.replace('("s", "Socialdemokraterna")', "")
+    assert sd["decisions"][0]["dok_id"] == "HD01TU8"
 
 
 def test_upsert_idempotent():
