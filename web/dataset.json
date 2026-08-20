@@ -20,6 +20,7 @@
       "words": [{"label": "AI — partipolitik A–Ö", "url": "https://www.socialdemokraterna.se/var-politik/a-till-o/ai", "date": "2026-08-13", "rm": "2025/26", "role": "sade", "kind": "party_page", "actor_id": "s"}],
       "actions": [{"label": "Märkning av AI-genererat material för att motverka desinformation och deepfakes", "url": "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/motion/markning-av-ai-genererat-material-for-att-motverka_hd021815/", "date": "2025-10-03", "rm": "2025/26", "role": "skrev", "kind": "motion", "actor_id": "s", "dok_id": "HD021815"}],
       "votes": [],
+      "decisions": [],
       "timeline": [],
       "flag": null
     },
@@ -29,6 +30,7 @@
       "words": [],
       "actions": [{"label": "Risker och möjligheter med artificiell intelligens (AI)", "url": "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/motion/risker-och-mojligheter-med-artificiell-intelligens_hd021774/", "date": "2025-10-03", "rm": "2025/26", "role": "skrev", "kind": "motion", "actor_id": "m", "dok_id": "HD021774"}],
       "votes": [],
+      "decisions": [],
       "timeline": [],
       "flag": "action_without_words"
     },
@@ -37,7 +39,8 @@
       "name": "Sverigedemokraterna",
       "words": [],
       "actions": [{"label": "En tillförlitlig, konkurrenskraftig och hållbar svensk AI-politik", "url": "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/motion/en-tillforlitlig-konkurrenskraftig-och-hallbar_hd02311/", "date": "2025-10-03", "rm": "2025/26", "role": "skrev", "kind": "motion", "actor_id": "sd", "dok_id": "HD02311"}],
-      "votes": [{"label": "Digitaliserings- och postfrågor, punkt 7 — kammaren avslår motion 2025/26:311 yrkandena 7–8", "url": "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/betankande/digitaliserings-och-postfragor_hd01tu8/", "date": "2026-02-17", "rm": "2025/26", "role": "beslutades", "kind": "beslut", "dok_id": "HD01TU8", "punkt": "7", "decision_result": "known", "vote_method": "acclamation", "party_vote": "unknown"}],
+      "votes": [],
+      "decisions": [{"label": "Digitaliserings- och postfrågor, punkt 7 — kammaren avslår motion 2025/26:311 yrkandena 7–8", "url": "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/betankande/digitaliserings-och-postfragor_hd01tu8/", "date": "2026-02-17", "rm": "2025/26", "role": "beslutades", "kind": "beslut", "dok_id": "HD01TU8", "punkt": "7", "decision_result": "known", "vote_method": "acclamation", "party_vote": "unknown"}],
       "timeline": [],
       "flag": "action_without_words"
     },
@@ -47,6 +50,7 @@
       "words": [{"label": "AI på partisidan", "url": "https://www.vansterpartiet.se/politik/ai/", "date": "2026-01-19", "rm": "2025/26", "role": "sade", "kind": "party_page", "actor_id": "v"}],
       "actions": [],
       "votes": [],
+      "decisions": [],
       "timeline": [],
       "flag": "words_without_action"
     },
@@ -56,11 +60,12 @@
       "words": [],
       "actions": [{"label": "För en säker och hållbar AI", "url": "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/motion/for-en-saker-och-hallbar-ai_hd023320/", "date": "2025-10-06", "rm": "2025/26", "role": "skrev", "kind": "motion", "actor_id": "mp", "dok_id": "HD023320"}],
       "votes": [],
+      "decisions": [],
       "timeline": [],
       "flag": "action_without_words"
     },
-    {"actor_id": "c", "name": "Centerpartiet", "words": [], "actions": [], "votes": [], "timeline": [], "flag": null},
-    {"actor_id": "kd", "name": "Kristdemokraterna", "words": [], "actions": [], "votes": [], "timeline": [], "flag": null},
-    {"actor_id": "l", "name": "Liberalerna", "words": [], "actions": [], "votes": [], "timeline": [], "flag": null}
+    {"actor_id": "c", "name": "Centerpartiet", "words": [], "actions": [], "votes": [], "decisions": [], "timeline": [], "flag": null},
+    {"actor_id": "kd", "name": "Kristdemokraterna", "words": [], "actions": [], "votes": [], "decisions": [], "timeline": [], "flag": null},
+    {"actor_id": "l", "name": "Liberalerna", "words": [], "actions": [], "votes": [], "decisions": [], "timeline": [], "flag": null}
   ]
 }
