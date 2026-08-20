@@ -3,44 +3,26 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>VALET — Accountability Radar</title>
-  <link rel="stylesheet" href="./sauron.css" />
+  <title>Radarn — ord mot handling</title>
+  <meta name="description" content="Vad riksdagspartier säger vs vad de skriver i protokollet. Inte opinion. Inte röstmaskin." />
+  <link rel="stylesheet" href="radar.css" />
 </head>
 <body>
   <header class="top">
-    <p class="kicker">OpenSverige · actions vs words</p>
-    <h1>VALET</h1>
-    <p class="lede">Vad de sa 2022 · vad de gjort · vad de säger nu. Inte en röstmaskin.</p>
+    <p class="brand">OpenSverige · VALET</p>
+    <h1>Radarn</h1>
+    <p class="lede">De säger en sak. Protokollet en annan. Vi visar avståndet — med länk.</p>
   </header>
 
-  <section class="sauron" aria-label="Sauron-citat">
-    <svg class="eye" viewBox="0 0 160 160" role="img" aria-label="Öga">
-      <defs>
-        <radialGradient id="iris" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stop-color="#ffe7a3" />
-          <stop offset="45%" stop-color="#e23b1e" />
-          <stop offset="100%" stop-color="#1a0502" />
-        </radialGradient>
-      </defs>
-      <rect width="160" height="160" fill="#0b0706" />
-      <polygon points="80,8 132,150 28,150" fill="#2a1410" />
-      <ellipse cx="80" cy="78" rx="54" ry="28" fill="url(#iris)" />
-      <ellipse cx="80" cy="78" rx="10" ry="26" fill="#140302" />
-    </svg>
-    <figure class="bubble">
-      <blockquote id="quote">…</blockquote>
-      <figcaption>
-        <span id="who"></span>
-        <a id="src" href="#" target="_blank" rel="noopener">källa</a>
-      </figcaption>
-    </figure>
-  </section>
+  <p class="topic">Topic: <strong>AI</strong> · källa L1 Sveriges riksdag · inga LLM-åsikter</p>
 
-  <section class="grid" id="deltas"></section>
+  <section id="flags" class="flags" aria-label="Konfliktflaggor"></section>
+  <section id="grid" class="grid" aria-label="Åtta partier"></section>
 
   <footer>
-    Fixtures, inte facit. L1 vinner. <a href="../docs/LINKS.md">Källor</a>
+    <p>Inte opinionsmätning. Inte ranking. Inte röstförslag.</p>
+    <p>Tom cell = inget i urvalet, inte frikänd. <a href="https://github.com/opensverige/barometer-bs">Källkod</a></p>
   </footer>
-  <script src="./sauron.js"></script>
+  <script src="radar.js"></script>
 </body>
 </html>

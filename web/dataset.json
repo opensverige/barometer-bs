@@ -1,0 +1,74 @@
+{
+  "as_of": "2026-08-20",
+  "run_id": "mvp-deploy",
+  "topic_id": "ai",
+  "topic_label": "Artificiell intelligens",
+  "attribution": "Sveriges riksdag",
+  "note": "L1 = motioner från dokumentlista. L3 = partisida. Inga LLM-ståndpunkter. Tom lista = inget i urvalet, inte 'oskyldig'.",
+  "parties": [
+    {
+      "actor_id": "s",
+      "name": "Socialdemokraterna",
+      "words": [{"label": "AI på partisidan", "url": "https://www.socialdemokraterna.se/var-politik/a-till-o/artificiell-intelligens-ai", "layer": "L3"}],
+      "actions": [],
+      "votes": [],
+      "flag": "words_without_action"
+    },
+    {
+      "actor_id": "m",
+      "name": "Moderaterna",
+      "words": [],
+      "actions": [],
+      "votes": [],
+      "flag": null
+    },
+    {
+      "actor_id": "sd",
+      "name": "Sverigedemokraterna",
+      "words": [],
+      "actions": [],
+      "votes": [],
+      "flag": null
+    },
+    {
+      "actor_id": "v",
+      "name": "Vänsterpartiet",
+      "words": [{"label": "AI på partisidan", "url": "https://www.vansterpartiet.se/politik/ai/", "layer": "L3"}],
+      "actions": [],
+      "votes": [],
+      "flag": "words_without_action"
+    },
+    {
+      "actor_id": "mp",
+      "name": "Miljöpartiet",
+      "words": [],
+      "actions": [{"label": "Motion 2025/26:4115 om strategisk exportkontroll", "url": "https://data.riksdagen.se/dokument/HD024115.html", "dok_id": "HD024115", "date": "2026-04-28", "layer": "L1"}],
+      "votes": [],
+      "flag": "action_without_words"
+    },
+    {
+      "actor_id": "c",
+      "name": "Centerpartiet",
+      "words": [{"label": "Digitalisering A–Ö", "url": "https://www.centerpartiet.se/var-politik/politik-a-o/digitalisering", "layer": "L3"}],
+      "actions": [{"label": "Motion 2025/26:4156 om etikprövning av forskning", "url": "https://data.riksdagen.se/dokument/HD024156.html", "dok_id": "HD024156", "date": "2026-05-13", "layer": "L1"}],
+      "votes": [],
+      "flag": null
+    },
+    {
+      "actor_id": "kd",
+      "name": "Kristdemokraterna",
+      "words": [],
+      "actions": [],
+      "votes": [],
+      "flag": null
+    },
+    {
+      "actor_id": "l",
+      "name": "Liberalerna",
+      "words": [],
+      "actions": [],
+      "votes": [],
+      "flag": null
+    }
+  ]
+}
