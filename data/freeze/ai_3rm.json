@@ -1,0 +1,92 @@
+{
+  "topic_id": "ai",
+  "windows": ["2023/24", "2024/25", "2025/26"],
+  "frozen_at": "2026-08-21T00:00:00Z",
+  "note": "Titel-gate: AI|artificiell i titel. Keyword i brödtext uteslutet. Acklamation = vote_data none.",
+  "records": [
+    {
+      "kind": "motion",
+      "actor_id": "sd",
+      "rm": "2025/26",
+      "dok_id": "HD02311",
+      "title": "En tillförlitlig, konkurrenskraftig och hållbar svensk AI-politik",
+      "published_at": "2025-10-03",
+      "url": "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/motion/en-tillforlitlig-konkurrenskraftig-och-hallbar_hd02311/",
+      "punkt": null,
+      "vote_data": null,
+      "related_dok_id": null
+    },
+    {
+      "kind": "beslut",
+      "actor_id": null,
+      "rm": "2025/26",
+      "dok_id": "HD01TU8",
+      "title": "Digitaliserings- och postfrågor, punkt 7 — kammaren avslår motion 2025/26:311 yrkandena 7–8",
+      "published_at": "2026-02-17",
+      "url": "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/betankande/digitaliserings-och-postfragor_hd01tu8/",
+      "punkt": "7",
+      "vote_data": "none",
+      "related_dok_id": "HD02311"
+    },
+    {
+      "kind": "motion",
+      "actor_id": "s",
+      "rm": "2025/26",
+      "dok_id": "HD021815",
+      "title": "Märkning av AI-genererat material för att motverka desinformation och deepfakes",
+      "published_at": "2025-10-03",
+      "url": "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/motion/markning-av-ai-genererat-material-for-att-motverka_hd021815/",
+      "punkt": null,
+      "vote_data": null,
+      "related_dok_id": null
+    },
+    {
+      "kind": "motion",
+      "actor_id": "m",
+      "rm": "2025/26",
+      "dok_id": "HD021774",
+      "title": "Risker och möjligheter med artificiell intelligens (AI)",
+      "published_at": "2025-10-03",
+      "url": "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/motion/risker-och-mojligheter-med-artificiell-intelligens_hd021774/",
+      "punkt": null,
+      "vote_data": null,
+      "related_dok_id": null
+    },
+    {
+      "kind": "motion",
+      "actor_id": "mp",
+      "rm": "2025/26",
+      "dok_id": "HD023320",
+      "title": "För en säker och hållbar AI",
+      "published_at": "2025-10-06",
+      "url": "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/motion/for-en-saker-och-hallbar-ai_hd023320/",
+      "punkt": null,
+      "vote_data": null,
+      "related_dok_id": null
+    },
+    {
+      "kind": "party_page",
+      "actor_id": "s",
+      "rm": "2025/26",
+      "dok_id": "L3-S-AI",
+      "title": "AI — partipolitik A–Ö",
+      "published_at": "2026-08-13",
+      "url": "https://www.socialdemokraterna.se/var-politik/a-till-o/ai",
+      "punkt": null,
+      "vote_data": null,
+      "related_dok_id": null
+    },
+    {
+      "kind": "party_page",
+      "actor_id": "v",
+      "rm": "2025/26",
+      "dok_id": "L3-V-AI",
+      "title": "AI på partisidan",
+      "published_at": "2026-01-19",
+      "url": "https://www.vansterpartiet.se/politik/ai/",
+      "punkt": null,
+      "vote_data": null,
+      "related_dok_id": null
+    }
+  ]
+}
