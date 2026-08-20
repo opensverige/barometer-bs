@@ -1,111 +1,192 @@
-:root {
-  --bg: #0c0b0a;
-  --card: #161311;
-  --ink: #f3ece4;
-  --muted: #9a8c80;
-  --line: #2a2320;
-  --flag: #e23b1e;
-  --ok: #c4b39a;
-}
-* { box-sizing: border-box; }
-body {
-  margin: 0 auto;
-  max-width: 72rem;
-  padding: 1.2rem 1.2rem 4rem;
-  background: var(--bg);
-  color: var(--ink);
-  font: 18px/1.45 Georgia, serif;
-}
+@import url("tokens.css");
+
 .wip {
-  font-size: 0.75rem;
-  letter-spacing: 0.06em;
+  margin: 0;
+  padding: 0.45rem 1.2rem;
+  font: 0.72rem/1.4 var(--sans);
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--flag);
-  margin: 0 0 1.2rem;
+  color: var(--accent);
+  border-bottom: 1px solid var(--rule);
 }
+.mast {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 1.1rem 1.2rem 0;
+  max-width: 72rem;
+  margin: 0 auto;
+}
+.brand {
+  margin: 0;
+  font: 0.72rem/1 var(--sans);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.nav { display: flex; gap: 1.1rem; font: 0.85rem/1 var(--sans); }
+.nav a[aria-current="page"] { border-bottom: 1px solid var(--ink); }
 .sauron {
   display: flex;
   align-items: center;
   gap: 1.2rem;
-  margin: 0 0 1.8rem;
-  min-height: 7rem;
+  max-width: 72rem;
+  margin: 1.4rem auto 0;
+  padding: 0 1.2rem;
 }
 .eye {
-  width: 9rem;
+  width: 7.5rem;
   height: auto;
-  flex: 0 0 9rem;
-  filter: drop-shadow(0 0 12px #e23b1e88);
+  flex: 0 0 7.5rem;
 }
-.pupil { animation: glance 5s ease-in-out infinite; }
+.pupil { animation: glance 6s ease-in-out infinite; }
 @keyframes glance {
   0%, 100% { transform: translateX(0); }
-  40% { transform: translateX(-6px); }
-  70% { transform: translateX(5px); }
+  45% { transform: translateX(-5px); }
+  70% { transform: translateX(4px); }
 }
 .bubble {
   flex: 1;
+  max-width: 26rem;
   text-align: left;
-  background: #f4e7d4;
-  color: #1a100c;
-  border: 0;
-  border-radius: 1.1rem 1.1rem 1.1rem 0.2rem;
-  padding: 0.9rem 1.1rem;
-  font: 1.05rem/1.35 Georgia, serif;
-  max-width: 22rem;
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--rule);
+  border-radius: 0;
+  padding: 0.85rem 1rem;
+  font: 1.05rem/1.4 var(--serif);
   cursor: pointer;
 }
-.bubble small { display: block; margin-top: 0.35rem; color: #6a5346; font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; }
-.brand {
-  letter-spacing: 0.14em;
+.bubble small {
+  display: block;
+  margin-top: 0.4rem;
+  font: 0.68rem/1 var(--sans);
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  font-size: 0.72rem;
   color: var(--muted);
-  margin: 0 0 0.4rem;
 }
+.top, .topic, .filters, .tvn, .flags, .grid, .audit, footer {
+  max-width: 72rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.2rem;
+  padding-right: 1.2rem;
+}
+.top { margin-top: 1.6rem; }
 h1 {
-  font-size: clamp(2.4rem, 6vw, 4rem);
+  font-size: clamp(2.6rem, 7vw, 4.4rem);
   font-weight: 400;
-  margin: 0 0 0.4rem;
+  letter-spacing: -0.03em;
+  margin: 0 0 0.5rem;
 }
-.lede { margin: 0; max-width: 38rem; color: var(--ok); }
+.lede { margin: 0; max-width: 38rem; color: var(--muted); }
 .topic {
-  font-size: 0.85rem;
+  font: 0.8rem/1.5 var(--sans);
   color: var(--muted);
-  border-top: 1px solid var(--line);
-  padding-top: 1rem;
+  border-top: 1px solid var(--rule);
+  margin-top: 1.4rem;
+  padding-top: 0.85rem;
 }
-.tvn, .flags { display: grid; gap: 0.6rem; margin: 1.2rem 0; }
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1rem;
+  font: 0.85rem/1.4 var(--sans);
+}
+.filters select {
+  background: var(--paper);
+  border: 0;
+  border-bottom: 1px solid var(--ink);
+  font: inherit;
+  padding: 0.2rem 0;
+}
+.tvn, .flags { display: grid; gap: 0; margin-top: 1.4rem; }
 .flag, .tvn-card {
-  border-left: 3px solid var(--flag);
-  padding: 0.6rem 0.9rem;
-  background: #1c1412;
+  border-top: 1px solid var(--rule);
+  padding: 0.85rem 0;
+  background: transparent;
 }
-.tvn-card a, .flag a, .card a { color: var(--ink); }
+.conflict-flow {
+  display: block;
+  font: 0.72rem/1.6 var(--sans);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.25rem;
+}
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
-  gap: 0.8rem;
+  grid-template-columns: repeat(auto-fill, minmax(16.5rem, 1fr));
+  gap: 0;
+  border-top: 1px solid var(--rule);
+  margin-top: 1.6rem;
 }
 .card {
-  background: var(--card);
-  border: 1px solid var(--line);
-  padding: 1rem 1.1rem 1.2rem;
-  min-height: 14rem;
+  background: transparent;
+  border: 0;
+  border-right: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  padding: 1.1rem 1rem 1.3rem;
+  min-height: 15rem;
 }
-.card h2 { font-size: 1.05rem; margin: 0 0 0.8rem; font-weight: 400; }
-.row { margin: 0 0 0.7rem; }
+.card h2 {
+  font-size: 1.15rem;
+  margin: 0 0 0.9rem;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+.dot {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background: var(--ink);
+  flex: 0 0 auto;
+}
+.dot.s { background: var(--party-s); }
+.dot.m { background: var(--party-m); }
+.dot.sd { background: var(--party-sd); }
+.dot.v { background: var(--party-v); }
+.dot.mp { background: var(--party-mp); }
+.dot.c { background: var(--party-c); }
+.dot.kd { background: var(--party-kd); }
+.dot.l { background: var(--party-l); }
+.row { margin: 0 0 0.75rem; }
 .k {
   display: block;
-  font-size: 0.68rem;
+  font: 0.65rem/1.3 var(--sans);
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--muted);
+  margin-bottom: 0.15rem;
 }
 .empty { color: var(--muted); }
-.badge { display: inline-block; margin-top: 0.4rem; font-size: 0.75rem; color: var(--flag); }
-footer { margin-top: 3rem; font-size: 0.85rem; color: var(--muted); }
-footer a { color: var(--ok); }
+.badge {
+  display: inline-block;
+  margin-top: 0.3rem;
+  font: 0.75rem/1.4 var(--sans);
+  color: var(--accent);
+}
+.audit {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--rule);
+  font: 0.82rem/1.55 var(--sans);
+  color: var(--muted);
+}
+.audit ol { margin: 0.4rem 0 0; padding-left: 1.1rem; }
+footer {
+  margin-top: 2.5rem;
+  padding-top: 1rem;
+  padding-bottom: 2.5rem;
+  border-top: 1px solid var(--rule);
+  font: 0.82rem/1.5 var(--sans);
+  color: var(--muted);
+}
 @media (max-width: 640px) {
   .sauron { flex-direction: column; align-items: flex-start; }
   .bubble { max-width: none; width: 100%; }
+  .mast { flex-direction: column; gap: 0.5rem; }
+  .card { border-right: 0; }
 }
