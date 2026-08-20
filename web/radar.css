@@ -1,0 +1,85 @@
+:root {
+  --bg: #0c0b0a;
+  --card: #161311;
+  --ink: #f3ece4;
+  --muted: #9a8c80;
+  --line: #2a2320;
+  --flag: #e23b1e;
+  --ok: #c4b39a;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0 auto;
+  max-width: 72rem;
+  padding: 2rem 1.2rem 4rem;
+  background: var(--bg);
+  color: var(--ink);
+  font: 18px/1.45 Georgia, serif;
+}
+.top { margin-bottom: 1.5rem; }
+.brand {
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  color: var(--muted);
+  margin: 0 0 0.4rem;
+}
+h1 {
+  font-size: clamp(2.4rem, 6vw, 4rem);
+  font-weight: 400;
+  margin: 0 0 0.4rem;
+  letter-spacing: -0.03em;
+}
+.lede { margin: 0; max-width: 36rem; color: var(--ok); }
+.topic {
+  font-size: 0.85rem;
+  color: var(--muted);
+  border-top: 1px solid var(--line);
+  padding-top: 1rem;
+}
+.flags { display: grid; gap: 0.6rem; margin: 1.5rem 0 2rem; }
+.flag {
+  border-left: 3px solid var(--flag);
+  padding: 0.6rem 0.9rem;
+  background: #1c1412;
+}
+.flag a { color: var(--ink); }
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+  gap: 0.8rem;
+}
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  padding: 1rem 1.1rem 1.2rem;
+  min-height: 14rem;
+}
+.card h2 {
+  font-size: 1.05rem;
+  margin: 0 0 0.8rem;
+  font-weight: 400;
+}
+.row { margin: 0 0 0.7rem; }
+.k {
+  display: block;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.15rem;
+}
+.card a { color: var(--ink); }
+.empty { color: var(--muted); }
+.badge {
+  display: inline-block;
+  margin-top: 0.4rem;
+  font-size: 0.75rem;
+  color: var(--flag);
+}
+footer {
+  margin-top: 3rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+footer a { color: var(--ok); }
