@@ -1,0 +1,83 @@
+:root {
+  --bg: #0c0b0a;
+  --ink: #f3ece4;
+  --flag: #e23b1e;
+  --light: #c4b39a;
+  --dark: #5a4034;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0 auto;
+  max-width: 40rem;
+  padding: 1rem 1rem 3rem;
+  background: var(--bg);
+  color: var(--ink);
+  font: 16px/1.4 Georgia, serif;
+}
+.demo-warn {
+  background: var(--flag);
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-align: center;
+  padding: 0.6rem;
+  margin: 0 0 1rem;
+}
+.back a { color: #c4b39a; }
+.watch {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin: 0 0 1rem;
+  position: relative;
+}
+.eye {
+  width: 7rem;
+  filter: drop-shadow(0 0 10px #e23b1e88);
+  transition: transform 0.4s ease;
+}
+.eye.flare { filter: drop-shadow(0 0 18px #e23b1e); }
+.pupil { transition: transform 0.35s ease; }
+.watch-label { color: #9a8c80; font-size: 0.85rem; }
+.pick { display: flex; gap: 1rem; margin: 0 0 1rem; }
+.pick select { background: #161311; color: var(--ink); border: 1px solid #2a2320; }
+.board {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  width: min(92vw, 32rem);
+  aspect-ratio: 1;
+  border: 2px solid #e23b1e44;
+}
+.sq {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(1.2rem, 4.5vw, 2rem);
+  cursor: pointer;
+  user-select: none;
+}
+.sq.light { background: var(--light); color: #1a100c; }
+.sq.dark { background: var(--dark); color: #f4e7d4; }
+.sq.active { outline: 3px solid var(--flag); outline-offset: -3px; }
+.controls { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.8rem 0; }
+.controls button {
+  background: #161311;
+  color: var(--ink);
+  border: 1px solid #2a2320;
+  padding: 0.4rem 0.7rem;
+  cursor: pointer;
+}
+#timeline { width: 100%; }
+.card {
+  margin-top: 1rem;
+  background: #161311;
+  border-left: 3px solid var(--flag);
+  padding: 0.8rem 1rem;
+}
+.card a { color: var(--ink); }
+@media (max-width: 640px) {
+  .watch { flex-direction: column; align-items: flex-start; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .eye, .pupil, .sq { animation: none !important; transition: none !important; }
+}

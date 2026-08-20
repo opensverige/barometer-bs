@@ -1,0 +1,92 @@
+{
+  "contract": "MatchReplay",
+  "demo": true,
+  "warning": "VISUAL DEMO — INTE POLITISK DATA",
+  "topic": "demo.visual",
+  "players": [
+    {"id": "nord", "label": "Aktör Nord (demo)", "color": "white"},
+    {"id": "syd", "label": "Aktör Syd (demo)", "color": "black"}
+  ],
+  "events": [
+    {
+      "source_id": "demo:src:1",
+      "kind": "motion",
+      "date": "2024-03-01",
+      "dok_id": "DEMO01",
+      "punkt": null,
+      "url": "https://example.test/demo/1",
+      "actor_id": "nord",
+      "label": "Demo-källa 1",
+      "contradiction": false,
+      "evidence": "normal"
+    },
+    {
+      "source_id": "demo:src:2",
+      "kind": "anforande",
+      "date": "2024-03-02",
+      "dok_id": "DEMO02",
+      "punkt": null,
+      "url": "https://example.test/demo/2",
+      "actor_id": "syd",
+      "label": "Demo-källa 2",
+      "contradiction": false,
+      "evidence": "normal"
+    },
+    {
+      "source_id": "demo:src:3",
+      "kind": "motion",
+      "date": "2024-03-03",
+      "dok_id": "DEMO03",
+      "punkt": "1",
+      "url": "https://example.test/demo/3",
+      "actor_id": "nord",
+      "label": "Demo-källa 3",
+      "contradiction": true,
+      "evidence": "strong"
+    },
+    {
+      "source_id": "demo:src:4",
+      "kind": "beslut",
+      "date": "2024-03-04",
+      "dok_id": "DEMO04",
+      "punkt": "2",
+      "url": "https://example.test/demo/4",
+      "actor_id": "syd",
+      "label": "Demo-källa 4",
+      "contradiction": false,
+      "evidence": "strong"
+    },
+    {
+      "source_id": "demo:src:5",
+      "kind": "votering",
+      "date": "2024-03-05",
+      "dok_id": "DEMO05",
+      "punkt": "1",
+      "url": "https://example.test/demo/5",
+      "actor_id": "nord",
+      "label": "Demo-källa 5",
+      "contradiction": true,
+      "evidence": "normal"
+    },
+    {
+      "source_id": "demo:src:6",
+      "kind": "press",
+      "date": "2024-03-06",
+      "dok_id": "DEMO06",
+      "punkt": null,
+      "url": "https://example.test/demo/6",
+      "actor_id": "syd",
+      "label": "Demo-källa 6",
+      "contradiction": false,
+      "evidence": "normal"
+    }
+  ],
+  "moves": [
+    {"ply": 1, "from": "e2", "to": "e4", "piece": "P", "player": "nord", "source_id": "demo:src:1"},
+    {"ply": 2, "from": "e7", "to": "e5", "piece": "p", "player": "syd", "source_id": "demo:src:2"},
+    {"ply": 3, "from": "g1", "to": "f3", "piece": "N", "player": "nord", "source_id": "demo:src:3"},
+    {"ply": 4, "from": "b8", "to": "c6", "piece": "n", "player": "syd", "source_id": "demo:src:4"},
+    {"ply": 5, "from": "f1", "to": "c4", "piece": "B", "player": "nord", "source_id": "demo:src:5"},
+    {"ply": 6, "from": "g8", "to": "f6", "piece": "n", "player": "syd", "source_id": "demo:src:6"}
+  ]
+}

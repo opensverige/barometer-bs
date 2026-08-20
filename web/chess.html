@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Schackdemo — inte politisk data</title>
+  <link rel="stylesheet" href="chess.css" />
+</head>
+<body>
+  <p class="demo-warn" id="demo-warn">VISUAL DEMO — INTE POLITISK DATA</p>
+  <p class="back"><a href="index.html">← Radarn</a></p>
+
+  <section class="watch" aria-label="Sauron övervakar">
+    <svg class="eye" id="eye" viewBox="0 0 120 80" aria-hidden="true">
+      <ellipse cx="60" cy="40" rx="58" ry="28" fill="#1a0c08" stroke="#e23b1e" stroke-width="2"/>
+      <ellipse cx="60" cy="40" rx="28" ry="26" fill="#3a1208"/>
+      <ellipse class="pupil" id="pupil" cx="60" cy="40" rx="8" ry="22" fill="#e23b1e"/>
+      <ellipse cx="60" cy="40" rx="3" ry="10" fill="#f4e7d4"/>
+    </svg>
+    <p class="watch-label">Ögat följer draget. Inte en vinnare.</p>
+  </section>
+
+  <div class="pick">
+    <label>Vit <select id="white-sel"></select></label>
+    <label>Svart <select id="black-sel"></select></label>
+  </div>
+
+  <div class="board-wrap">
+    <div id="board" class="board" role="grid" aria-label="Schackbräde demo"></div>
+  </div>
+
+  <div class="controls">
+    <button type="button" id="prev">Föregående</button>
+    <button type="button" id="play">Play</button>
+    <button type="button" id="pause">Paus</button>
+    <button type="button" id="next">Nästa</button>
+  </div>
+  <input type="range" id="timeline" min="0" max="0" value="0" aria-label="Tidslinje" />
+
+  <aside id="card" class="card" hidden></aside>
+
+  <script src="chess.js"></script>
+</body>
+</html>
