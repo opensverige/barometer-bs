@@ -4,30 +4,49 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Radarn — ord mot handling</title>
+  <link rel="stylesheet" href="tokens.css" />
   <link rel="stylesheet" href="radar.css" />
 </head>
 <body>
+  <a class="skip" href="#grid">Hoppa till partier</a>
   <p class="wip">WIP · experiment · Discord + SuperGrok 4.6 · inte färdig produkt</p>
+
+  <header class="mast">
+    <p class="brand">OpenSverige</p>
+    <nav class="nav" aria-label="Sidor">
+      <a href="index.html" aria-current="page">Radarn</a>
+      <a href="chess.html">Schackdemo</a>
+      <a href="https://github.com/opensverige/barometer-bs/blob/main/docs/ABOUT.md">About</a>
+    </nav>
+  </header>
 
   <section class="sauron" aria-label="Sauron">
     <svg class="eye" viewBox="0 0 120 80" aria-hidden="true">
-      <ellipse cx="60" cy="40" rx="58" ry="28" fill="#1a0c08" stroke="#e23b1e" stroke-width="2"/>
+      <ellipse cx="60" cy="40" rx="58" ry="28" fill="#1a0c08" stroke="#7a1f1a" stroke-width="2"/>
       <ellipse cx="60" cy="40" rx="28" ry="26" fill="#3a1208"/>
-      <ellipse class="pupil" cx="60" cy="40" rx="8" ry="22" fill="#e23b1e"/>
+      <ellipse class="pupil" cx="60" cy="40" rx="8" ry="22" fill="#7a1f1a"/>
       <ellipse cx="60" cy="40" rx="3" ry="10" fill="#f4e7d4"/>
     </svg>
     <button type="button" class="bubble" id="bubble" aria-live="polite">…</button>
   </section>
 
   <header class="top">
-    <p class="brand">OpenSverige · VALET</p>
     <h1>Radarn</h1>
-    <p class="lede">De säger en sak. Protokollet en annan. Avståndet — med länk. Tom cell = inget underlag, inte frikänd.</p>
+    <p class="lede">Säger → primärkälla. Men i riksdagen → skriver / röstar / beslutas. Tom cell = inget underlag, inte frikänd.</p>
   </header>
+
   <p class="topic" id="meta"></p>
+
+  <div class="filters" role="search">
+    <label>Topic <select id="filter-topic"></select></label>
+    <label>Parti <select id="filter-party"></select></label>
+  </div>
+
   <section id="tvn" class="tvn" aria-label="then vs now"></section>
   <section id="flags" class="flags" aria-label="Konfliktflaggor"></section>
-  <section id="grid" class="grid" aria-label="Åtta partier"></section>
+  <section id="grid" class="grid" aria-label="Partier"></section>
+  <section id="audit" class="audit" aria-label="Audit trail"></section>
+
   <footer>
     <p>Inte opinionsmätning. Inte ranking. Inte röstförslag. Acklamation = beslut känt, partiröst okänd.</p>
     <p><a href="https://github.com/opensverige/barometer-bs/blob/main/docs/ABOUT.md">About</a> · <a href="https://github.com/opensverige/barometer-bs">Källkod</a></p>
