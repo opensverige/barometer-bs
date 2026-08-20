@@ -2,31 +2,24 @@
 
 OpenSverige — *ord mot handling*. Tema: **VALET**.
 
-Mäter deltat: vad de sa senast valet · vad de gjort · vad de säger nu. Inte opinion. Inte röstmaskin.
+Inte opinion. Inte röstmaskin. Sade / skrev / röstade — med länk.
 
-| Dokument | Vad det styr |
-|----------|----------------|
-| [docs/SPEC.md](docs/SPEC.md) | beteende: hierarki, claims, conflicts, ingest, gates |
-| [docs/PRD.md](docs/PRD.md) | produkt: mål, scope-lager, metrics, feature-livscykel |
-| [docs/SCORING.md](docs/SCORING.md) | `evidence_score`-formeln (byte = major) |
-| [docs/LINKS.md](docs/LINKS.md) | riksdagen, regeringen, statsbudget (ej L1) |
+## Deploy (Vercel)
 
-## Kör
+Root Directory: `web`. Inget build command. Merge PR → Import GitHub repo → Done.
 
-```bash
-pip install -e ".[dev]"
-pytest
-python -m radar validate tests/fixtures/valet.json
-python -m radar delta tests/fixtures/valet.json --out web/delta.json
+Lokalt:
+
 ```
-
-Statisk vy, ingen Vite:
-
-```bash
-# öppna web/index.html via valfri static server så fetch fungerar
 python -m http.server 8765 --directory web
 ```
 
-Sauron-bubblan shufflar 48 korta fixture-citat (≤10 ord). Byt mot L3-extract.
+## Motor
 
-Bidrag via pull request. Inget direkt till `main`. Se [CONTRIBUTING.md](CONTRIBUTING.md).
+```
+pip install -e ".[dev]"
+pytest
+python -m radar ingest riksdagen --topic ai
+```
+
+L1 = Sveriges riksdag. Tom cell i UI = inget i urvalet, inte frikänd.
