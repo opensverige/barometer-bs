@@ -4,24 +4,22 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Radarn — ord mot handling</title>
-  <meta name="description" content="Vad riksdagspartier säger vs vad de skriver i protokollet. Inte opinion. Inte röstmaskin." />
   <link rel="stylesheet" href="radar.css" />
 </head>
 <body>
+  <p class="wip">WIP · experiment · Discord + SuperGrok 4.6 · inte färdig produkt</p>
   <header class="top">
     <p class="brand">OpenSverige · VALET</p>
     <h1>Radarn</h1>
-    <p class="lede">De säger en sak. Protokollet en annan. Vi visar avståndet — med länk.</p>
+    <p class="lede">De säger en sak. Protokollet en annan. Avståndet — med länk. Tom cell = inget underlag, inte frikänd.</p>
   </header>
-
-  <p class="topic">Topic: <strong>AI</strong> · källa L1 Sveriges riksdag · inga LLM-åsikter</p>
-
+  <p class="topic" id="meta"></p>
+  <section id="tvn" class="tvn" aria-label="then vs now"></section>
   <section id="flags" class="flags" aria-label="Konfliktflaggor"></section>
   <section id="grid" class="grid" aria-label="Åtta partier"></section>
-
   <footer>
-    <p>Inte opinionsmätning. Inte ranking. Inte röstförslag.</p>
-    <p>Tom cell = inget i urvalet, inte frikänd. <a href="https://github.com/opensverige/barometer-bs">Källkod</a></p>
+    <p>Inte opinionsmätning. Inte ranking. Inte röstförslag. Acklamation = beslut känt, partiröst okänd.</p>
+    <p><a href="https://github.com/opensverige/barometer-bs/blob/main/docs/ABOUT.md">About</a> · <a href="https://github.com/opensverige/barometer-bs">Källkod</a></p>
   </footer>
   <script src="radar.js"></script>
 </body>
