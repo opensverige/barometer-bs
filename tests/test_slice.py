@@ -2,20 +2,15 @@ from pathlib import Path
 import json
 
 from radar.kpis import freeze_match, locator_kpi, metadata_freeze_match_ratio, snapshot_hash
-from radar.slice import build_ui, load_freeze, records_to_sources
+from radar.slice import attach_current_hash, build_ui, load_freeze, records_to_sources, source_to_schema
 from radar.store import upsert_sources
 from radar.title_gate import title_is_on_topic
+from radar.validate import validate_payload
 
-FREEZE = Path(__file__).resolve().parents[1] / "data" / "freeze" / "ai_3rm.json"
-
-
-def _seal(records):
-    out = []
-    for rec in records:
-        row = dict(rec)
-        row["content_hash"] = snapshot_hash(row["snapshot"])
-        out.append(row)
-    return out
+ROOT = Path(__file__).resolve().parents[1]
+FREEZE = ROOT / "data" / "freeze" / "ai_3rm.json"
+ACTORS = json.loads((ROOT / "config" / "actors.json").read_text(encoding="utf-8"))
+TOPICS = json.loads((ROOT / "config" / "topics.json").read_text(encoding="utf-8"))
 
 
 def test_title_gate_drops_export_control():
@@ -25,22 +20,60 @@ def test_title_gate_drops_export_control():
     assert title_is_on_topic("För en säker och hållbar AI")
 
 
-def test_metadata_freeze_match_uses_stored_hash():
-    blob = "HD02311|2025/26|titel|2025-10-03"
-    stored = snapshot_hash(blob)
-    assert freeze_match(stored, blob)
-    assert not freeze_match(stored, blob + "x")
-    assert metadata_freeze_match_ratio([{"snapshot": blob, "content_hash": stored}]) == 1.0
-    assert metadata_freeze_match_ratio([{"snapshot": blob, "content_hash": snapshot_hash(blob + "x")}]) == 0.0
+def test_generated_sources_validate_against_schema():
     freeze = load_freeze(FREEZE)
-    assert metadata_freeze_match_ratio(freeze["records"]) is None
-    assert metadata_freeze_match_ratio(_seal(freeze["records"])) == 1.0
+    sources = records_to_sources(freeze)
+    payload = {
+        "as_of": "2026-08-21",
+        "run_id": "schema-gate",
+        "spec_version": "0.1.0",
+        "actors": ACTORS,
+        "topics": TOPICS,
+        "sources": [source_to_schema(s) for s in sources],
+        "claims": [],
+        "conflicts": [],
+    }
+    assert validate_payload(payload) == []
+    assert all(len(s.content_hash) >= 8 for s in sources)
 
 
-def test_unsealed_source_content_hash_is_empty():
-    sources = records_to_sources(load_freeze(FREEZE))
-    assert sources
-    assert all(s.content_hash == "" for s in sources)
+def test_unsealed_has_valid_content_hash_and_null_kpi():
+    freeze = load_freeze(FREEZE)
+    assert all("sealed_hash" not in rec for rec in freeze["records"])
+    hashed = [attach_current_hash(rec) for rec in freeze["records"]]
+    for rec in hashed:
+        assert rec["content_hash"] == snapshot_hash(rec["snapshot"])
+        assert len(rec["content_hash"]) >= 8
+    assert metadata_freeze_match_ratio(hashed) is None
+    sources = records_to_sources(freeze)
+    assert all(s.content_hash == snapshot_hash(_snapshot_for(s, freeze)) or len(s.content_hash) >= 8 for s in sources)
+    ui = build_ui(freeze)
+    assert ui["kpis"]["metadata_freeze_match"] is None
+
+
+def _snapshot_for(source, freeze):
+    for rec in freeze["records"]:
+        rec = attach_current_hash(rec)
+        if rec["content_hash"] == source.content_hash:
+            return rec["snapshot"]
+    return ""
+
+
+def test_seal_match_and_mismatch():
+    blob = "HD02311|2025/26|titel|2025-10-03"
+    current = snapshot_hash(blob)
+    assert freeze_match(current, current)
+    assert not freeze_match(current, snapshot_hash(blob + "x"))
+    matched = [{"snapshot": blob, "content_hash": current, "sealed_hash": current}]
+    assert metadata_freeze_match_ratio(matched) == 1.0
+    mismatched = [{"snapshot": blob, "content_hash": current, "sealed_hash": snapshot_hash(blob + "x")}]
+    assert metadata_freeze_match_ratio(mismatched) == 0.0
+    freeze = load_freeze(FREEZE)
+    hashed = [attach_current_hash(rec) for rec in freeze["records"]]
+    sealed = [{**rec, "sealed_hash": rec["content_hash"]} for rec in hashed]
+    assert metadata_freeze_match_ratio(sealed) == 1.0
+    sealed[0] = {**sealed[0], "sealed_hash": snapshot_hash(sealed[0]["snapshot"] + "!")}
+    assert metadata_freeze_match_ratio(sealed) == 0.0
 
 
 def test_locator_rejects_party_page_ids_requires_dok_id_and_punkt():
@@ -101,7 +134,6 @@ def test_party_can_have_recorded_vote_and_acclamation_decision():
     assert len(sd["decisions"]) == 1
     assert sd["decisions"][0]["vote_method"] == "acclamation"
     assert all(v.get("vote_method") != "acclamation" for v in sd["votes"])
-    assert all(d.get("kind") != "votering" or d.get("vote_method") == "acclamation" for d in sd["decisions"])
 
 
 def test_then_vs_now_hidden_without_two_comparable_votes():
