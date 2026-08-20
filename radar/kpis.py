@@ -15,15 +15,19 @@ def snapshot_hash(blob: str) -> str:
     return hashlib.sha256(blob.encode("utf-8")).hexdigest()
 
 
-def freeze_match(stored_hash: str, blob: str) -> bool:
-    return bool(stored_hash) and stored_hash == snapshot_hash(blob)
+def freeze_match(sealed_hash: str, content_hash: str) -> bool:
+    return bool(sealed_hash) and sealed_hash == content_hash
 
 
 def metadata_freeze_match_ratio(records: list[dict[str, Any]]) -> float | None:
-    rows = [r for r in records if r.get("content_hash") and r.get("snapshot")]
+    rows = [r for r in records if r.get("sealed_hash")]
     if not rows:
         return None
-    ok = sum(1 for r in rows if freeze_match(r["content_hash"], r["snapshot"]))
+    ok = 0
+    for rec in rows:
+        current = rec.get("content_hash") or snapshot_hash(rec.get("snapshot") or "")
+        if freeze_match(rec["sealed_hash"], current):
+            ok += 1
     return ok / len(rows)
 
 
