@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import argparse
 import json
-import sys
 from pathlib import Path
 
 from radar.conflicts import detect
@@ -67,7 +66,7 @@ def cmd_ingest(source: str, rms: list[str], topic: str, out: Path) -> int:
     if source == "riksdagen":
         from radar.adapters.riksdagen import RiksdagenAdapter
 
-        aliases = ["AI", "artificiell intelligens"]
+        aliases = ["AI"]
         topics = json.loads(Path("config/topics.json").read_text(encoding="utf-8"))
         for t in topics:
             if t["topic_id"] == topic:
@@ -76,7 +75,7 @@ def cmd_ingest(source: str, rms: list[str], topic: str, out: Path) -> int:
         adapter = RiksdagenAdapter(aliases=aliases)
         raw = adapter.fetch(rms)
         sources = adapter.normalize(raw)
-        claims = adapter.extract(sources, topic, raw=raw)
+        claims = adapter.extract(sources, topic)
         payload = {
             "as_of": rms[-1] if rms else "",
             "run_id": f"ingest-riksdagen-{topic}",

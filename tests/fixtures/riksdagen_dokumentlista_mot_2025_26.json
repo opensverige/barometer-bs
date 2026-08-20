@@ -1,0 +1,66 @@
+{
+  "recorded_from": "https://data.riksdagen.se/dokumentlista/?sok=AI&doktyp=mot&rm=2025/26&utformat=json&sort=datum&sortorder=desc&p=1",
+  "recorded_at": "2026-08-20",
+  "dokumentlista": {
+    "@sida": "1",
+    "@sidor": "6",
+    "@traffar": "102",
+    "dokument": [
+      {
+        "datum": "2026-05-13",
+        "id": "hd024156",
+        "dok_id": "HD024156",
+        "dokument_url_text": "//data.riksdagen.se/dokument/HD024156.text",
+        "dokument_url_html": "//data.riksdagen.se/dokument/HD024156.html",
+        "titel": "med anledning av prop. 2025/26:260 En mer ändamålsenlig reglering av etikprövning av forskning som avser människor",
+        "rm": "2025/26",
+        "organ": "UbU",
+        "doktyp": "mot",
+        "typ": "mot",
+        "subtyp": "Kommittémotion",
+        "beteckning": "4156",
+        "dokintressent": {
+          "intressent": [
+            {"roll": "undertecknare", "namn": "Anders Ådahl", "partibet": "C"}
+          ]
+        }
+      },
+      {
+        "datum": "2026-04-28",
+        "id": "hd024122",
+        "dok_id": "HD024122",
+        "dokument_url_html": "//data.riksdagen.se/dokument/HD024122.html",
+        "titel": "med anledning av skr. 2025/26:114 Strategisk exportkontroll 2025",
+        "rm": "2025/26",
+        "organ": "UU",
+        "doktyp": "mot",
+        "typ": "mot",
+        "subtyp": "Enskild motion",
+        "beteckning": "4122",
+        "dokintressent": {
+          "intressent": [
+            {"roll": "undertecknare", "namn": "Malcolm Momodou Jallow", "partibet": "-"}
+          ]
+        }
+      },
+      {
+        "datum": "2026-04-28",
+        "id": "hd024115",
+        "dok_id": "HD024115",
+        "dokument_url_html": "//data.riksdagen.se/dokument/HD024115.html",
+        "titel": "med anledning av skr. 2025/26:114 Strategisk exportkontroll 2025",
+        "rm": "2025/26",
+        "organ": "UU",
+        "doktyp": "mot",
+        "typ": "mot",
+        "subtyp": "Kommittémotion",
+        "beteckning": "4115",
+        "dokintressent": {
+          "intressent": [
+            {"roll": "undertecknare", "namn": "Jacob Risberg", "partibet": "MP"}
+          ]
+        }
+      }
+    ]
+  }
+}
