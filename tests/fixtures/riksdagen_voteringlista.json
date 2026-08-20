@@ -1,0 +1,41 @@
+{
+  "voteringlista": {
+    "@sida": "1",
+    "@sidor": "1",
+    "votering": [
+      {
+        "votering_id": "AE123",
+        "punkt": "1",
+        "parti": "M",
+        "rost": "Ja",
+        "namn": "Ledamot A"
+      },
+      {
+        "votering_id": "AE123",
+        "punkt": "1",
+        "parti": "M",
+        "rost": "Ja",
+        "namn": "Ledamot B"
+      },
+      {
+        "votering_id": "AE123",
+        "punkt": "1",
+        "parti": "V",
+        "rost": "Nej",
+        "namn": "Ledamot C"
+      },
+      {
+        "votering_id": "AE123",
+        "punkt": "1",
+        "parti": "S",
+        "rost": "Frånvarande",
+        "namn": "Ledamot D"
+      },
+      {
+        "punkt": "2",
+        "parti": "KD",
+        "rost": "Ja"
+      }
+    ]
+  }
+}
