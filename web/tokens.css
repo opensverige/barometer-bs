@@ -1,21 +1,47 @@
 :root {
-  --bg: #fafafa;
-  --fg: #0a0a0a;
-  --muted: #737373;
-  --card: #fff;
-  --border: #e5e5e5;
-  --side: #0a0a0a;
-  --side-fg: #fafafa;
-  --accent: #e11d48;
-  --sans: Inter, ui-sans-serif, system-ui, sans-serif;
+  --bg: #f7f7f5;
+  --fg: #1a1a18;
+  --muted: #5c5c57;
+  --line: #e4e4de;
+  --card: #ffffff;
+  --side: #111110;
+  --side-fg: #f4f4f0;
+  --ok: #0f7a4a;
+  --warn: #9a3412;
+  --focus: #1a1a18;
+  --sans: ui-sans-serif, system-ui, "Segoe UI", sans-serif;
 }
 *, *::before, *::after { box-sizing: border-box; }
-html, body { margin: 0; background: var(--bg); color: var(--fg); font: 14px/1.45 var(--sans); }
-:focus-visible { outline: 2px solid #0a0a0a; outline-offset: 2px; }
-a { color: inherit; }
+html { color-scheme: light; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font: 16px/1.5 var(--sans);
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+}
 .skip { position: absolute; left: -999px; }
-.skip:focus { left: 0.5rem; top: 0.5rem; z-index: 9; background: #fff; padding: 0.4rem; }
-.material-symbols-outlined { font-size: 1.1rem; vertical-align: middle; }
+.skip:focus { left: 0.5rem; top: 0.5rem; z-index: 20; background: #fff; padding: 0.5rem 0.7rem; }
+a { color: inherit; }
+.ico { width: 1.25rem; height: 1.25rem; fill: none; stroke: currentColor; stroke-width: 1.75; flex: 0 0 auto; }
+button.ico-btn {
+  min-width: 44px; min-height: 44px;
+  display: inline-flex; align-items: center; justify-content: center;
+  border: 0; background: transparent; color: var(--muted); cursor: help; position: relative; padding: 0;
+}
+button.ico-btn:hover, button.ico-btn:focus-visible { color: var(--fg); }
+button.ico-btn[data-tip]:hover::after,
+button.ico-btn[data-tip]:focus-visible::after {
+  content: attr(data-tip);
+  position: absolute; left: 50%; bottom: calc(100% + 6px); transform: translateX(-50%);
+  width: max-content; max-width: 16rem; z-index: 12;
+  background: #111110; color: #fff; font-size: 0.75rem; line-height: 1.35;
+  padding: 0.4rem 0.5rem; border-radius: 0.35rem; white-space: normal; pointer-events: none;
+}
 @media (prefers-reduced-motion: reduce) {
-  * { animation: none !important; transition: none !important; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
 }

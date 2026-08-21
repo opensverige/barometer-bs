@@ -3,17 +3,22 @@ const FLAG_SV = {
   action_without_words: "Skrev i kammaren. Ingen topic-sida i urvalet.",
 };
 const TIP = {
-  sade: "L3: partisida i urvalet. Tom = ingen AI-sida hittad, inte att de är tysta i verkligheten.",
-  skrev: "L1: motion med AI i titeln. Tom = ingen sådan motion i frysen.",
-  rostade: "Registrerad partiröst (Ja/Nej/Avstår). Acklamation räknas inte här.",
+  sade: "Partisida i urvalet (L3). Streck = ingen AI-sida hittad här.",
+  skrev: "Motion med AI i titeln (L1). Streck = ingen sådan motion i frysen.",
+  rostade: "Registrerad partiröst. Acklamation räknas inte här.",
   beslutades: "Kammarbeslut, t.ex. acklamation. Partiröst då okänd.",
-  konflikt: "Mismatch mellan webb och kammaren i urvalet.",
+  konflikt: "Mismatch webb vs kammare i urvalet.",
 };
 
 function isAcclamation(x) {
   return x && x.vote_method === "acclamation";
 }
-
+function ico(name) {
+  return `<svg class="ico" aria-hidden="true"><use href="#i-${name}"/></svg>`;
+}
+function helpBtn(tip) {
+  return `<button type="button" class="ico-btn" data-tip="${tip}" aria-label="Förklaring" onclick="event.stopPropagation()">${ico("help")}</button>`;
+}
 async function loadJson(name) {
   for (const url of [name, "/" + name, "/web/" + name]) {
     try {
@@ -23,7 +28,6 @@ async function loadJson(name) {
   }
   return null;
 }
-
 function shuffle(list) {
   const a = list.slice();
   for (let i = a.length - 1; i > 0; i--) {
@@ -32,7 +36,6 @@ function shuffle(list) {
   }
   return a;
 }
-
 function startSauron(pack) {
   const el = document.getElementById("bubble");
   if (!el) return;
@@ -49,29 +52,22 @@ function startSauron(pack) {
   el.addEventListener("click", show);
   setInterval(show, 6000);
 }
-
 function links(items, empty) {
-  if (!items || !items.length) return `<span class="empty">${empty}</span>`;
-  return items
-    .map((x) => {
-      const note = isAcclamation(x) ? " — partiröst okänd" : "";
-      const date = x.date ? ` <span class="empty">${x.date}</span>` : "";
-      return `<a href="${x.url}" rel="noopener">${x.label}</a>${date}${note}`;
-    })
-    .join("<br />");
+  if (!items || !items.length) return `<span class="stat gap">${empty}</span>`;
+  return items.map((x) => {
+    const note = isAcclamation(x) ? " — partiröst okänd" : "";
+    const date = x.date ? ` <span class="stat gap">${x.date}</span>` : "";
+    return `<a href="${x.url}" rel="noopener">${x.label}</a>${date}${note}`;
+  }).join("<br />");
 }
-
 function cell(items, tip) {
-  if (items && items.length) return `<span class="yes" title="${tip}">${items.length}</span>`;
-  return `<span class="no" title="${tip}">—</span>`;
-}
-
-function th(label, key) {
-  return `<th>${label} <button type="button" class="help" data-tip="${TIP[key]}">help</button></th>`;
+  if (items && items.length) {
+    return `<span class="stat ok" title="${tip}">${ico("check")} ${items.length}</span>`;
+  }
+  return `<span class="stat gap" title="${tip}">${ico("dash")}</span>`;
 }
 
 let DATA = null;
-let OPEN = null;
 
 function visibleParties() {
   const topicSel = document.getElementById("filter-topic");
@@ -83,7 +79,6 @@ function visibleParties() {
   if (topic && topicId && topic !== topicId && topic !== "all") return [];
   return (DATA.parties || []).filter((p) => party === "all" || p.actor_id === party);
 }
-
 function fillFilters() {
   const topicSel = document.getElementById("filter-topic");
   const partySel = document.getElementById("filter-party");
@@ -92,99 +87,81 @@ function fillFilters() {
     ? DATA.topics
     : [{ topic_id: DATA.topic_id || "unknown", label: DATA.topic_label || DATA.topic_id || "topic" }];
   topicSel.innerHTML = topics.map((t) => `<option value="${t.topic_id || t}">${t.label || t.topic_label || t.topic_id || t}</option>`).join("");
-  partySel.innerHTML = `<option value="all">Alla</option>` +
-    (DATA.parties || []).map((p) => `<option value="${p.actor_id}">${p.name}</option>`).join("");
+  partySel.innerHTML = `<option value="all">Alla</option>` + (DATA.parties || []).map((p) => `<option value="${p.actor_id}">${p.name}</option>`).join("");
   topicSel.onchange = renderAll;
   partySel.onchange = renderAll;
 }
-
 function openSheet(p) {
-  OPEN = p.actor_id;
-  const sheet = document.getElementById("sheet");
-  const body = document.getElementById("sheet-body");
-  sheet.hidden = false;
-  body.innerHTML = `<h2>${p.name}</h2>
-    <p class="empty">${FLAG_SV[p.flag] || "Ingen konfliktflagga i urvalet."}</p>
-    <p><span class="k">Sade</span><br>${links(p.words, "ingen partisida i urvalet")}</p>
-    <p><span class="k">Skrev</span><br>${links(p.actions, "ingen AI-motion i urvalet")}</p>
-    <p><span class="k">Röstade</span><br>${links(p.votes, "ingen registrerad partiröst")}</p>
-    <p><span class="k">Beslutades</span><br>${links(p.decisions, "inget kammarbeslut i urvalet")}</p>`;
+  const dlg = document.getElementById("sheet");
+  document.getElementById("sheet-body").innerHTML = `<h2>${p.name}</h2>
+    <p class="stat gap">${FLAG_SV[p.flag] || "Ingen konfliktflagga i urvalet."}</p>
+    <p><strong>Sade</strong><br>${links(p.words, "ingen partisida i urvalet")}</p>
+    <p><strong>Skrev</strong><br>${links(p.actions, "ingen AI-motion i urvalet")}</p>
+    <p><strong>Röstade</strong><br>${links(p.votes, "ingen registrerad partiröst")}</p>
+    <p><strong>Beslutades</strong><br>${links(p.decisions, "inget kammarbeslut i urvalet")}</p>`;
+  if (dlg && dlg.showModal) dlg.showModal();
 }
-
 function renderAll() {
+  const host = document.getElementById("oversikt") || document.getElementById("grid");
   if (!DATA) {
-    document.getElementById("grid").textContent = "dataset.json saknas";
+    host.textContent = "dataset.json saknas";
     return;
   }
   const loc = DATA.kpis && DATA.kpis.locator;
   const frz = DATA.kpis && DATA.kpis.metadata_freeze_match;
   const topicLabel = DATA.topic_label || DATA.topic_id || "topic";
   document.getElementById("meta").innerHTML =
-    `Topic: <strong>${topicLabel}</strong> · rm ${(DATA.windows || []).join(" · ") || "—"} · locator ${loc == null ? "—" : Math.round(loc * 100) + "%"} · freeze ${frz == null ? "—" : Math.round(frz * 100) + "%"}`;
-
+    `Topic: <strong>${topicLabel}</strong> · ${(DATA.windows || []).join(" · ") || "—"} · locator ${loc == null ? "—" : Math.round(loc * 100) + "%"} · freeze ${frz == null ? "—" : Math.round(frz * 100) + "%"}`;
   const tvn = document.getElementById("tvn");
   if (tvn) {
-    if (!DATA.then_vs_now || !DATA.then_vs_now.length) {
-      tvn.hidden = true;
-      tvn.innerHTML = "";
-    } else {
+    if (!DATA.then_vs_now || !DATA.then_vs_now.length) { tvn.hidden = true; tvn.innerHTML = ""; }
+    else {
       tvn.hidden = false;
       tvn.innerHTML = DATA.then_vs_now.map((x) => `<div>${x.name}: ${x.summary}</div>`).join("");
     }
   }
-
   const parties = visibleParties();
-  const flags = document.getElementById("flags");
-  if (flags) flags.innerHTML = "";
-
-  document.getElementById("grid").innerHTML = `<table class="overview">
+  host.innerHTML = `<table class="overview">
     <thead><tr>
-      <th>Parti</th>${th("Sade", "sade")}${th("Skrev", "skrev")}${th("Röstade", "rostade")}${th("Beslutades", "beslutades")}${th("Konflikt", "konflikt")}
+      <th>Parti</th>
+      <th>Sade ${helpBtn(TIP.sade)}</th>
+      <th>Skrev ${helpBtn(TIP.skrev)}</th>
+      <th>Röstade ${helpBtn(TIP.rostade)}</th>
+      <th>Beslutades ${helpBtn(TIP.beslutades)}</th>
+      <th>Konflikt ${helpBtn(TIP.konflikt)}</th>
     </tr></thead>
-    <tbody>
-      ${parties.map((p) => `<tr tabindex="0" data-actor="${p.actor_id}">
-        <td><img src="logos/${p.actor_id}.svg" alt="" width="20" height="20" />${p.name}</td>
-        <td>${cell(p.words, TIP.sade)}</td>
-        <td>${cell(p.actions, TIP.skrev)}</td>
-        <td>${cell(p.votes, TIP.rostade)}</td>
-        <td>${cell(p.decisions, TIP.beslutades)}</td>
-        <td>${p.flag ? "ja" : "—"}</td>
-      </tr>`).join("")}
-    </tbody>
+    <tbody>${parties.map((p) => `<tr tabindex="0" data-actor="${p.actor_id}">
+      <td><img src="logos/${p.actor_id}.svg" alt="" width="20" height="20" />${p.name}</td>
+      <td>${cell(p.words, TIP.sade)}</td>
+      <td>${cell(p.actions, TIP.skrev)}</td>
+      <td>${cell(p.votes, TIP.rostade)}</td>
+      <td>${cell(p.decisions, TIP.beslutades)}</td>
+      <td>${p.flag ? `<span class="stat" title="${FLAG_SV[p.flag] || p.flag}">${ico("warn")}</span>` : `<span class="stat gap">${ico("dash")}</span>`}</td>
+    </tr>`).join("")}</tbody>
   </table>`;
-
-  document.querySelectorAll("table.overview tbody tr").forEach((tr) => {
+  host.querySelectorAll("tbody tr").forEach((tr) => {
     const open = () => {
       const p = parties.find((x) => x.actor_id === tr.dataset.actor);
       if (p) openSheet(p);
     };
     tr.addEventListener("click", open);
     tr.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        open();
-      }
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(); }
     });
   });
-
   const audit = document.getElementById("audit");
   if (audit) {
     const first = parties.find((p) => (p.actions && p.actions[0]) || (p.words && p.words[0]));
     const src = first && ((first.actions && first.actions[0]) || (first.words && first.words[0]));
     audit.innerHTML = src
-      ? `<strong>Audit trail</strong> <button type="button" class="help" data-tip="Kedjan bakom en post: parti → källa → dok_id → URL.">help</button>
+      ? `<h2>Audit ${helpBtn("Kedjan: parti → källa → dok_id → URL.")}</h2>
          <ol><li>${first.name}</li><li>${src.label}</li><li>${src.dok_id || "—"}</li><li><a href="${src.url}" rel="noopener">primärkälla</a></li></ol>`
-      : "<strong>Audit trail</strong><p>underlag saknas</p>";
+      : "<h2>Audit</h2><p>underlag saknas</p>";
   }
 }
-
 Promise.all([loadJson("quotes.json"), loadJson("dataset.json")]).then(([quotes, data]) => {
   DATA = data;
   startSauron(quotes);
   if (DATA) fillFilters();
   renderAll();
-  const close = document.getElementById("sheet-close");
-  if (close) close.onclick = () => {
-    document.getElementById("sheet").hidden = true;
-  };
 });
