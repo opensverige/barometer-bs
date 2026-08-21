@@ -3,61 +3,68 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Radarn — ord mot handling</title>
+  <title>Radarn — OpenSverige</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="tokens.css" />
   <link rel="stylesheet" href="radar.css" />
 </head>
-<body>
-  <button type="button" id="gate" class="gate">
-    <span class="gate-kicker">OpenSverige // v0</span>
-    <span class="gate-title">RADARN</span>
-    <span class="gate-go">click to enter</span>
-  </button>
+<body class="app">
   <a class="skip" href="#grid">Hoppa till partier</a>
-  <p class="wip">WIP · experiment · Discord + SuperGrok 4.6 · inte färdig produkt</p>
-
-  <header class="mast">
-    <p class="brand">OpenSverige</p>
-    <nav class="nav" aria-label="Sidor">
-      <a href="index.html" aria-current="page">Radarn</a>
-      <a href="chess.html">Schackdemo</a>
-      <a href="https://github.com/opensverige/barometer-bs/blob/main/docs/ABOUT.md">About</a>
-    </nav>
-  </header>
-
-  <section class="sauron" aria-label="Sauron">
-    <div class="hud-ring">
+  <aside class="sidebar">
+    <a class="logo" href="index.html" aria-label="Radarn">
       <svg class="eye" viewBox="0 0 120 80" aria-hidden="true">
-        <ellipse cx="60" cy="40" rx="58" ry="28" fill="#1a0c08" stroke="#ff3a1a" stroke-width="2"/>
+        <ellipse cx="60" cy="40" rx="58" ry="28" fill="#1a0c08" stroke="#e11d48" stroke-width="2"/>
         <ellipse cx="60" cy="40" rx="28" ry="26" fill="#3a1208"/>
-        <ellipse class="pupil" cx="60" cy="40" rx="8" ry="22" fill="#ff3a1a"/>
-        <ellipse cx="60" cy="40" rx="3" ry="10" fill="#f4e7d4"/>
+        <ellipse class="pupil" cx="60" cy="40" rx="8" ry="22" fill="#e11d48"/>
+        <ellipse cx="60" cy="40" rx="3" ry="10" fill="#fff"/>
       </svg>
+      <span>Radarn</span>
+    </a>
+    <nav aria-label="Huvudmeny">
+      <a href="index.html" aria-current="page"><span class="material-symbols-outlined" aria-hidden="true">dashboard</span> Översikt</a>
+      <a href="#flags"><span class="material-symbols-outlined" aria-hidden="true">warning</span> Konflikter</a>
+      <a href="#grid"><span class="material-symbols-outlined" aria-hidden="true">groups</span> Partier</a>
+      <a href="#audit"><span class="material-symbols-outlined" aria-hidden="true">fingerprint</span> Audit</a>
+      <a href="#graphs" class="soon"><span class="material-symbols-outlined" aria-hidden="true">bar_chart</span> Grafer <em>snart</em></a>
+      <a href="chess.html"><span class="material-symbols-outlined" aria-hidden="true">grid_view</span> Schackdemo</a>
+    </nav>
+    <p class="side-note">Sauron-ögat är logotyp. Partimarkeringar är färgbrickor — byt mot officiella filer i <code>web/logos/</code>.</p>
+  </aside>
+  <div class="main">
+    <p class="wip">WIP · DEMO · experiment · inte färdig produkt</p>
+    <header class="topbar">
+      <div>
+        <h1>Översikt</h1>
+        <p class="lede">Säger → primärkälla. Men i riksdagen → skriver / röstar / beslutas.</p>
+      </div>
+      <button type="button" class="bubble" id="bubble" aria-live="polite">…</button>
+    </header>
+    <p class="topic" id="meta"></p>
+    <div class="filters" role="search">
+      <label>Topic <select id="filter-topic"></select></label>
+      <label>Parti <select id="filter-party"></select></label>
     </div>
-    <button type="button" class="bubble" id="bubble" aria-live="polite">…</button>
-  </section>
-
-  <header class="top">
-    <h1>RADARN</h1>
-    <p class="lede">Säger → primärkälla. Men i riksdagen → skriver / röstar / beslutas. Tom cell = inget underlag, inte frikänd.</p>
-  </header>
-
-  <p class="topic" id="meta"></p>
-
-  <div class="filters" role="search">
-    <label>Topic <select id="filter-topic"></select></label>
-    <label>Parti <select id="filter-party"></select></label>
+    <section class="kpis" aria-label="Nyckeltal">
+      <article class="kpi"><span class="k">Live data</span><strong id="kpi-live">—</strong></article>
+      <article class="kpi demo"><span class="k">Grafer</span><strong>Kommer snart</strong><span class="pill">DEMO</span></article>
+      <article class="kpi demo"><span class="k">Fler topics</span><strong>Kommer snart</strong><span class="pill">DEMO</span></article>
+      <article class="kpi demo"><span class="k">then vs now</span><strong>Kräver två röster</strong><span class="pill">DEMO</span></article>
+    </section>
+    <section id="graphs" class="panel demo-panel" aria-label="Grafer">
+      <h2><span class="material-symbols-outlined">bar_chart</span> Grafer <span class="pill">KOMMER SNART</span></h2>
+      <p>Inga siffror här. Skelett bara — vi hittar inte på utfall.</p>
+      <div class="skel" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+    </section>
+    <section id="tvn" class="tvn" aria-label="then vs now"></section>
+    <section id="flags" class="flags" aria-label="Konfliktflaggor"></section>
+    <section id="grid" class="grid" aria-label="Partier"></section>
+    <section id="audit" class="audit" aria-label="Audit trail"></section>
+    <footer>
+      <p>Inte opinionsmätning. Inte ranking. Inte röstförslag. Acklamation = beslut känt, partiröst okänd.</p>
+      <p><a href="https://github.com/opensverige/barometer-bs/blob/main/docs/ABOUT.md">About</a> · <a href="https://github.com/opensverige/barometer-bs">Källkod</a></p>
+    </footer>
   </div>
-
-  <section id="tvn" class="tvn" aria-label="then vs now"></section>
-  <section id="flags" class="flags" aria-label="Konfliktflaggor"></section>
-  <section id="grid" class="grid" aria-label="Partier"></section>
-  <section id="audit" class="audit" aria-label="Audit trail"></section>
-
-  <footer>
-    <p>Inte opinionsmätning. Inte ranking. Inte röstförslag. Acklamation = beslut känt, partiröst okänd.</p>
-    <p><a href="https://github.com/opensverige/barometer-bs/blob/main/docs/ABOUT.md">About</a> · <a href="https://github.com/opensverige/barometer-bs">Källkod</a></p>
-  </footer>
   <script src="radar.js"></script>
 </body>
 </html>
