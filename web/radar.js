@@ -2,6 +2,13 @@ const FLAG_SV = {
   words_without_action: "Säger på webben. Ingen motion i urvalet.",
   action_without_words: "Skrev i kammaren. Ingen topic-sida i urvalet.",
 };
+const TIP = {
+  sade: "L3: partisida i urvalet. Tom = ingen AI-sida hittad, inte att de är tysta i verkligheten.",
+  skrev: "L1: motion med AI i titeln. Tom = ingen sådan motion i frysen.",
+  rostade: "Registrerad partiröst (Ja/Nej/Avstår). Acklamation räknas inte här.",
+  beslutades: "Kammarbeslut, t.ex. acklamation. Partiröst då okänd.",
+  konflikt: "Mismatch mellan webb och kammaren i urvalet.",
+};
 
 function isAcclamation(x) {
   return x && x.vote_method === "acclamation";
@@ -54,15 +61,17 @@ function links(items, empty) {
     .join("<br />");
 }
 
-function flowLine(party) {
-  const said = (party.words && party.words[0]) || null;
-  const did = (party.actions && party.actions[0]) || (party.votes && party.votes[0]) || (party.decisions && party.decisions[0]) || null;
-  const left = said ? `<a href="${said.url}" rel="noopener">primärkälla</a>` : "ingen L3";
-  const right = did ? `<a href="${did.url}" rel="noopener">${did.dok_id || "L1"}</a>` : "ingen L1";
-  return `<span class="conflict-flow">Säger → ${left} → men i riksdagen → ${right}</span>`;
+function cell(items, tip) {
+  if (items && items.length) return `<span class="yes" title="${tip}">${items.length}</span>`;
+  return `<span class="no" title="${tip}">—</span>`;
+}
+
+function th(label, key) {
+  return `<th>${label} <button type="button" class="help" data-tip="${TIP[key]}">help</button></th>`;
 }
 
 let DATA = null;
+let OPEN = null;
 
 function visibleParties() {
   const topicSel = document.getElementById("filter-topic");
@@ -89,6 +98,19 @@ function fillFilters() {
   partySel.onchange = renderAll;
 }
 
+function openSheet(p) {
+  OPEN = p.actor_id;
+  const sheet = document.getElementById("sheet");
+  const body = document.getElementById("sheet-body");
+  sheet.hidden = false;
+  body.innerHTML = `<h2>${p.name}</h2>
+    <p class="empty">${FLAG_SV[p.flag] || "Ingen konfliktflagga i urvalet."}</p>
+    <p><span class="k">Sade</span><br>${links(p.words, "ingen partisida i urvalet")}</p>
+    <p><span class="k">Skrev</span><br>${links(p.actions, "ingen AI-motion i urvalet")}</p>
+    <p><span class="k">Röstade</span><br>${links(p.votes, "ingen registrerad partiröst")}</p>
+    <p><span class="k">Beslutades</span><br>${links(p.decisions, "inget kammarbeslut i urvalet")}</p>`;
+}
+
 function renderAll() {
   if (!DATA) {
     document.getElementById("grid").textContent = "dataset.json saknas";
@@ -97,11 +119,8 @@ function renderAll() {
   const loc = DATA.kpis && DATA.kpis.locator;
   const frz = DATA.kpis && DATA.kpis.metadata_freeze_match;
   const topicLabel = DATA.topic_label || DATA.topic_id || "topic";
-  const n = (DATA.parties || []).length;
   document.getElementById("meta").innerHTML =
     `Topic: <strong>${topicLabel}</strong> · rm ${(DATA.windows || []).join(" · ") || "—"} · locator ${loc == null ? "—" : Math.round(loc * 100) + "%"} · freeze ${frz == null ? "—" : Math.round(frz * 100) + "%"}`;
-  const live = document.getElementById("kpi-live");
-  if (live) live.textContent = `${n} partier · ${topicLabel}`;
 
   const tvn = document.getElementById("tvn");
   if (tvn) {
@@ -110,53 +129,51 @@ function renderAll() {
       tvn.innerHTML = "";
     } else {
       tvn.hidden = false;
-      tvn.innerHTML = DATA.then_vs_now
-        .map((x) => `<div class="tvn-card"><strong>${x.name}</strong> — then_vs_now: ${x.status}<br />${x.summary}<br /><a href="${x.t1.url}" rel="noopener">t1</a> · <a href="${x.t2.url}" rel="noopener">t2</a></div>`)
-        .join("");
+      tvn.innerHTML = DATA.then_vs_now.map((x) => `<div>${x.name}: ${x.summary}</div>`).join("");
     }
   }
 
   const parties = visibleParties();
-  const hits = parties.filter((p) => p.flag);
   const flags = document.getElementById("flags");
-  if (flags) {
-    flags.innerHTML = hits
-      .map((p) => {
-        const src = [...(p.words || []), ...(p.actions || [])][0];
-        return `<div class="flag">${flowLine(p)}<strong>${p.name}</strong> — ${FLAG_SV[p.flag] || p.flag} ${src ? `<a href="${src.url}" rel="noopener">källa</a>` : ""}</div>`;
-      })
-      .join("");
-  }
+  if (flags) flags.innerHTML = "";
 
-  document.getElementById("grid").innerHTML = parties
-    .map((p) => {
-      const votes = p.votes || [];
-      const decisions = p.decisions || [];
-      return `<article class="card" id="actor-${p.actor_id}">
-        <h2><img src="logos/${p.actor_id}.svg" alt="" width="24" height="24" />${p.name}</h2>
-        ${flowLine(p)}
-        <p class="row"><span class="k">Sade</span>${links(p.words, "underlag saknas")}</p>
-        <p class="row"><span class="k">Skrev</span>${links(p.actions, "underlag saknas")}</p>
-        <p class="row"><span class="k">Röstade</span>${links(votes, "underlag saknas")}</p>
-        <p class="row"><span class="k">Beslutades</span>${links(decisions, "underlag saknas")}</p>
-        ${p.flag ? `<span class="badge">${FLAG_SV[p.flag]}</span>` : ""}
-      </article>`;
-    })
-    .join("");
+  document.getElementById("grid").innerHTML = `<table class="overview">
+    <thead><tr>
+      <th>Parti</th>${th("Sade", "sade")}${th("Skrev", "skrev")}${th("Röstade", "rostade")}${th("Beslutades", "beslutades")}${th("Konflikt", "konflikt")}
+    </tr></thead>
+    <tbody>
+      ${parties.map((p) => `<tr tabindex="0" data-actor="${p.actor_id}">
+        <td><img src="logos/${p.actor_id}.svg" alt="" width="20" height="20" />${p.name}</td>
+        <td>${cell(p.words, TIP.sade)}</td>
+        <td>${cell(p.actions, TIP.skrev)}</td>
+        <td>${cell(p.votes, TIP.rostade)}</td>
+        <td>${cell(p.decisions, TIP.beslutades)}</td>
+        <td>${p.flag ? "ja" : "—"}</td>
+      </tr>`).join("")}
+    </tbody>
+  </table>`;
+
+  document.querySelectorAll("table.overview tbody tr").forEach((tr) => {
+    const open = () => {
+      const p = parties.find((x) => x.actor_id === tr.dataset.actor);
+      if (p) openSheet(p);
+    };
+    tr.addEventListener("click", open);
+    tr.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        open();
+      }
+    });
+  });
 
   const audit = document.getElementById("audit");
   if (audit) {
     const first = parties.find((p) => (p.actions && p.actions[0]) || (p.words && p.words[0]));
     const src = first && ((first.actions && first.actions[0]) || (first.words && first.words[0]));
     audit.innerHTML = src
-      ? `<strong>Audit trail</strong><ol>
-          <li>Claim / post: ${first.name}</li>
-          <li>Source: ${src.label}</li>
-          <li>Dokument: ${src.kind || "—"}</li>
-          <li>official ID: ${src.dok_id || "—"}${src.punkt ? " · punkt " + src.punkt : ""}</li>
-          <li>Primärkälla: <a href="${src.url}" rel="noopener">${src.url}</a></li>
-          <li>Hash: ${DATA.kpis && DATA.kpis.metadata_freeze_match != null ? "metadata_freeze_match " + DATA.kpis.metadata_freeze_match : "oseglad"}</li>
-        </ol>`
+      ? `<strong>Audit trail</strong> <button type="button" class="help" data-tip="Kedjan bakom en post: parti → källa → dok_id → URL.">help</button>
+         <ol><li>${first.name}</li><li>${src.label}</li><li>${src.dok_id || "—"}</li><li><a href="${src.url}" rel="noopener">primärkälla</a></li></ol>`
       : "<strong>Audit trail</strong><p>underlag saknas</p>";
   }
 }
@@ -166,4 +183,8 @@ Promise.all([loadJson("quotes.json"), loadJson("dataset.json")]).then(([quotes, 
   startSauron(quotes);
   if (DATA) fillFilters();
   renderAll();
+  const close = document.getElementById("sheet-close");
+  if (close) close.onclick = () => {
+    document.getElementById("sheet").hidden = true;
+  };
 });

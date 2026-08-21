@@ -7,17 +7,15 @@
   --side: #0a0a0a;
   --side-fg: #fafafa;
   --accent: #e11d48;
-  --ring: #0a0a0a;
-  --radius: 0.75rem;
   --sans: Inter, ui-sans-serif, system-ui, sans-serif;
 }
 *, *::before, *::after { box-sizing: border-box; }
-html, body { margin: 0; background: var(--bg); color: var(--fg); font: 15px/1.5 var(--sans); }
-:focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; }
+html, body { margin: 0; background: var(--bg); color: var(--fg); font: 14px/1.45 var(--sans); }
+:focus-visible { outline: 2px solid #0a0a0a; outline-offset: 2px; }
 a { color: inherit; }
 .skip { position: absolute; left: -999px; }
 .skip:focus { left: 0.5rem; top: 0.5rem; z-index: 9; background: #fff; padding: 0.4rem; }
-.material-symbols-outlined { font-size: 1.15rem; vertical-align: middle; }
+.material-symbols-outlined { font-size: 1.1rem; vertical-align: middle; }
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation: none !important; transition: none !important; }
+  * { animation: none !important; transition: none !important; }
 }
