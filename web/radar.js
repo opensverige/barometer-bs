@@ -96,10 +96,12 @@ function renderAll() {
   }
   const loc = DATA.kpis && DATA.kpis.locator;
   const frz = DATA.kpis && DATA.kpis.metadata_freeze_match;
-  const cov = (DATA.coverage && DATA.coverage.motions_title_gated_by_rm) || {};
   const topicLabel = DATA.topic_label || DATA.topic_id || "topic";
+  const n = (DATA.parties || []).length;
   document.getElementById("meta").innerHTML =
     `Topic: <strong>${topicLabel}</strong> · rm ${(DATA.windows || []).join(" · ") || "—"} · locator ${loc == null ? "—" : Math.round(loc * 100) + "%"} · freeze ${frz == null ? "—" : Math.round(frz * 100) + "%"}`;
+  const live = document.getElementById("kpi-live");
+  if (live) live.textContent = `${n} partier · ${topicLabel}`;
 
   const tvn = document.getElementById("tvn");
   if (tvn) {
@@ -131,7 +133,7 @@ function renderAll() {
       const votes = p.votes || [];
       const decisions = p.decisions || [];
       return `<article class="card" id="actor-${p.actor_id}">
-        <h2><span class="dot ${p.actor_id}" aria-hidden="true"></span>${p.name}</h2>
+        <h2><img src="logos/${p.actor_id}.svg" alt="" width="24" height="24" />${p.name}</h2>
         ${flowLine(p)}
         <p class="row"><span class="k">Sade</span>${links(p.words, "underlag saknas")}</p>
         <p class="row"><span class="k">Skrev</span>${links(p.actions, "underlag saknas")}</p>
@@ -159,22 +161,8 @@ function renderAll() {
   }
 }
 
-function bindGate() {
-  const gate = document.getElementById("gate");
-  if (!gate) return;
-  const close = () => gate.remove();
-  gate.addEventListener("click", close);
-  gate.addEventListener("keydown", (e) => {
-    if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-      close();
-    }
-  });
-}
-
 Promise.all([loadJson("quotes.json"), loadJson("dataset.json")]).then(([quotes, data]) => {
   DATA = data;
-  bindGate();
   startSauron(quotes);
   if (DATA) fillFilters();
   renderAll();
