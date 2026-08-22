@@ -6,6 +6,7 @@
   <title>Radarn — OpenSverige</title>
   <link rel="stylesheet" href="tokens.css" />
   <link rel="stylesheet" href="radar.css" />
+  <link rel="stylesheet" href="charts.css" />
 </head>
 <body class="app">
   <svg xmlns="http://www.w3.org/2000/svg" class="visually-hidden" aria-hidden="true">
@@ -37,7 +38,7 @@
       <a href="index.html" aria-current="page"><svg class="ico" aria-hidden="true"><use href="#i-table"/></svg> Översikt</a>
       <a href="#luckor"><svg class="ico" aria-hidden="true"><use href="#i-info"/></svg> Luckor</a>
       <a href="#audit"><svg class="ico" aria-hidden="true"><use href="#i-link"/></svg> Audit</a>
-      <a href="#grafer"><svg class="ico" aria-hidden="true"><use href="#i-chart"/></svg> Grafer <span class="soon">snart</span></a>
+      <a href="#grafer"><svg class="ico" aria-hidden="true"><use href="#i-chart"/></svg> Grafer <span class="soon">mock</span></a>
       <a href="chess.html"><svg class="ico" aria-hidden="true"><use href="#i-grid"/></svg> Schackdemo</a>
     </nav>
   </aside>
@@ -76,11 +77,7 @@
     <div id="grid" class="visually-hidden" aria-hidden="true"></div>
     <section id="tvn" hidden></section>
     <section id="flags" hidden></section>
-    <section id="grafer" class="panel">
-      <h2><svg class="ico" aria-hidden="true"><use href="#i-chart"/></svg> Grafer <span class="soon">kommer snart</span></h2>
-      <p>Inga påhittade siffror. Tomt med flit.</p>
-      <div class="skel" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
-    </section>
+    <section id="grafer" class="va"></section>
     <section id="audit" class="panel"></section>
     <dialog id="sheet">
       <form method="dialog"><button type="submit" class="ico-btn" aria-label="Stäng"><svg class="ico"><use href="#i-close"/></svg></button></form>
@@ -92,5 +89,6 @@
     </footer>
   </div>
   <script src="radar.js"></script>
+  <script src="charts.js"></script>
 </body>
 </html>
