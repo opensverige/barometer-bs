@@ -1,0 +1,79 @@
+.va { margin: 1.25rem 0 2rem; }
+.va-head { display: flex; align-items: baseline; gap: 0.6rem; flex-wrap: wrap; margin-bottom: 0.75rem; }
+.va-head h2 { margin: 0; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.03em; }
+.va-note { margin: 0 0 0.75rem; font-size: 0.8rem; color: hsl(var(--muted-foreground, 240 3.8% 46%)); }
+.va-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: rgba(0,0,0,0.08) 0 0 0 1px, rgba(0,0,0,0.04) 0 2px 2px;
+  overflow: hidden;
+}
+.va-metrics { display: grid; grid-template-columns: repeat(3, 1fr); }
+.va-metric {
+  text-align: left;
+  background: #fafafa;
+  border: 0;
+  border-bottom: 1px solid #ebebeb;
+  padding: 1rem 1.1rem 0.85rem;
+  cursor: pointer;
+  font: inherit;
+}
+.va-metric.active { background: #fff; box-shadow: inset 0 -2px 0 #171717; }
+.va-metric span { display: block; font-size: 0.8rem; color: #666; }
+.va-metric strong { display: inline-block; font-size: 1.75rem; letter-spacing: -0.04em; font-weight: 600; margin-top: 0.2rem; }
+.va-delta {
+  display: inline-block; margin-left: 0.4rem; font-size: 0.72rem; font-weight: 500;
+  padding: 0.1rem 0.4rem; border-radius: 999px; vertical-align: 0.35rem;
+}
+.va-delta.up { background: #ecfdf3; color: #067647; }
+.va-delta.down { background: #fef3f2; color: #b42318; }
+.va-chart { padding: 0.5rem 1rem 0.75rem; }
+.va-chart svg { width: 100%; height: 220px; display: block; }
+.va-panels {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+}
+.va-panel {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: rgba(0,0,0,0.08) 0 0 0 1px;
+  padding: 0.85rem 0.9rem 0.7rem;
+}
+.va-panel h3 {
+  margin: 0 0 0.65rem;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #808080;
+}
+.va-bar {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.28rem 0;
+  font-size: 0.85rem;
+}
+.va-bar-track {
+  position: relative;
+  background: #f4f4f5;
+  border-radius: 8px;
+  min-height: 2rem;
+  padding: 0.4rem 0.6rem;
+  overflow: hidden;
+}
+.va-bar-track i {
+  position: absolute; inset: 0 auto 0 0; background: #ebebeb; border-radius: 8px;
+}
+.va-bar-track span { position: relative; z-index: 1; }
+.va-bar b { font-variant-numeric: tabular-nums; font-weight: 600; }
+.pill.mock {
+  background: #fef3c7; color: #92400e; font-size: 0.65rem; font-weight: 600;
+  padding: 0.12rem 0.4rem; border-radius: 999px; letter-spacing: 0.04em;
+}
+@media (max-width: 800px) {
+  .va-metrics, .va-panels { grid-template-columns: 1fr; }
+}
